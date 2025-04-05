@@ -1,0 +1,37 @@
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: #ffffff30;
+  font-size: 24px;
+}
+.head__logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 10px 0 10px 64px;
+}
+.head__logo img {
+  width: 34px;
+  height: 34px;
+}
+.head__logo p {
+  line-height: 100%;
+  letter-spacing: 0%;
+  padding-left: 10px;
+}
+.head__nav {
+  padding: 10px 40px 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  transition: all 0.3s ease-in;
+}
+.head__nav span {
+  cursor: pointer;
+}
+.head__nav span:hover {
+  color: #321d6473;
+}
