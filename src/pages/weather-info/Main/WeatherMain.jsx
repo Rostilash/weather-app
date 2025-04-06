@@ -9,6 +9,8 @@ import { loadingInfoGif } from "./../utils/loadingInfoGif";
 export const WeatherMain = ({ weatherData }) => {
   if (!weatherData) return;
   const { is_day, temperature, time, winddirection, windspeed } = weatherData.current_weather;
+  const { humidity, apparent_temperature, visibility } = weatherData;
+
   // To wind speed km/h
   const windSpeedKmh = Math.round(windspeed * 3.6);
   // Formatted Date
@@ -51,7 +53,7 @@ export const WeatherMain = ({ weatherData }) => {
               <div className={style.visibility_context}>
                 <img src="../../../public/weather-icons/eye.png" alt="" />
                 <div className={style.visibility_context_text}>
-                  <span>Visibility</span> <span>10KM</span>
+                  <span>Visibility</span> <span>{visibility} km</span>
                 </div>
               </div>
 
@@ -60,7 +62,7 @@ export const WeatherMain = ({ weatherData }) => {
               <div className={style.visibility_context}>
                 <img src="../../../public/weather-icons/temperature.png" alt="" />
                 <div className={style.visibility_context_text}>
-                  <span style={{ marginLeft: "-5px" }}>Feels like</span> <span>10KM</span>
+                  <span style={{ marginLeft: "-5px" }}>Feels like</span> <span>{apparent_temperature} °C</span>
                 </div>
               </div>
             </div>
@@ -69,7 +71,7 @@ export const WeatherMain = ({ weatherData }) => {
               <div className={style.visibility_context}>
                 <img src="../../../public/weather-icons/humidity.png" alt="" />
                 <div className={style.visibility_context_text}>
-                  <span>Humidity</span> <span>10KM</span>
+                  <span>Humidity</span> <span>{humidity}%</span>
                 </div>
               </div>
 

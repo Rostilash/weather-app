@@ -39,8 +39,6 @@ export function filterWindDirection(windDirection) {
 }
 
 export function filterIsDay(day) {
-  if (!day) return;
-
   if (day === 1) {
     return "sun.png";
   }

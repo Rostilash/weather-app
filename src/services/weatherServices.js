@@ -10,13 +10,28 @@ export function getWeatherData() {
       try {
         const response = await axios.get("https://api.open-meteo.com/v1/forecast", {
           params: {
-            latitude: 48.6208, // Ужгород
+            latitude: 48.6208,
             longitude: 22.2879,
             current_weather: true,
-            language: "en", // англійська мова
+            hourly: "relative_humidity_2m,apparent_temperature,visibility",
+            timezone: "auto",
+            language: "en",
           },
         });
-        setWeatherData(response.data);
+
+        const hourly = response.data.hourly;
+        const currentHumidity = hourly.relative_humidity_2m[0];
+        const currentApparentTemperature = hourly.apparent_temperature[0];
+        const currentVisibility = response.data.hourly.visibility[0] / 1000;
+
+        const fullWeatherData = {
+          ...response.data,
+          humidity: currentHumidity,
+          apparent_temperature: currentApparentTemperature,
+          visibility: currentVisibility,
+        };
+
+        setWeatherData(fullWeatherData);
         setLoading(false);
       } catch (error) {
         console.error("Error while fetching data:", error);
@@ -38,7 +53,7 @@ export function getWeatherCity({ weatherData }) {
 
       try {
         const response = await axios.get(findCityUrl);
-
+        console.log(response);
         const city = response.data.address && response.data.address.city ? response.data.address.city : "Unknown";
         const countryCode = response.data.address && response.data.address.country_code ? response.data.address.country_code : "Unknown";
 
