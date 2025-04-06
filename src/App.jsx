@@ -4,6 +4,7 @@ import { Weather } from "./pages/weather-info/Weather";
 function App() {
   return (
     <>
+      {}
       <Weather />
     </>
   );
