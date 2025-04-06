@@ -1,10 +1,13 @@
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import { Weather } from "./pages/weather-info/Weather";
 
 function App() {
   return (
     <>
-      <Weather />
+      <Router>
+        <Weather />
+      </Router>
     </>
   );
 }

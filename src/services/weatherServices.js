@@ -53,7 +53,6 @@ export function getWeatherCity({ weatherData }) {
 
       try {
         const response = await axios.get(findCityUrl);
-        console.log(response);
         const city = response.data.address && response.data.address.city ? response.data.address.city : "Unknown";
         const countryCode = response.data.address && response.data.address.country_code ? response.data.address.country_code : "Unknown";
 

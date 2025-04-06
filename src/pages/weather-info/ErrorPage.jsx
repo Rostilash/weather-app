@@ -4,7 +4,7 @@ export const ErrorPage = () => {
   return (
     <div className={style.error}>
       <img src="/public/gif/error.gif" alt="Loading..." />
-      <h1>False to load the weather try again...</h1>
+      <h1>False to load the weather, try again...</h1>
     </div>
   );
 };
