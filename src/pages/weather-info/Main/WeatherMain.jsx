@@ -11,6 +11,7 @@ export const WeatherMain = ({ weatherData }) => {
   const currentWeather = weatherData.current_weather;
   const currentWind = weatherData.current_weather.windspeed;
   const windSpeedKmh = Math.round(currentWind * 3.6);
+
   let windCode = weatherData.current_weather.weathercode;
   if (windCode === 0) {
     windCode = "Almost clear";
@@ -25,64 +26,58 @@ export const WeatherMain = ({ weatherData }) => {
   } else if (windCode === 5) {
     windCode = "Fog";
   }
-  let windDirection = weatherData.current_weather.winddirection;
 
-  function getWindDirection() {
+  let windDirection = weatherData.current_weather.winddirection;
+  let arrowDirection = "";
+  function getWindDirection(windDirection) {
     if ((windDirection >= 0 && windDirection < 22.5) || (windDirection >= 337.5 && windDirection <= 360)) {
-      return "North wind";
+      return { direction: "North wind", arrow: "↑" };
     } else if (windDirection >= 22.5 && windDirection < 67.5) {
-      return "North-east wind";
+      return { direction: "North-east wind", arrow: "↗" };
     } else if (windDirection >= 67.5 && windDirection < 112.5) {
-      return "East wind";
+      return { direction: "East wind", arrow: "→" };
     } else if (windDirection >= 112.5 && windDirection < 157.5) {
-      return "South-east wind";
+      return { direction: "South-east wind", arrow: "↘" };
     } else if (windDirection >= 157.5 && windDirection < 202.5) {
-      return "South wind";
+      return { direction: "South wind", arrow: "↓" };
     } else if (windDirection >= 202.5 && windDirection < 247.5) {
-      return "South-west wind";
+      return { direction: "South-west wind", arrow: "↙" };
     } else if (windDirection >= 247.5 && windDirection < 292.5) {
-      return "West wind";
+      return { direction: "West wind", arrow: "←" };
     } else if (windDirection >= 292.5 && windDirection < 337.5) {
-      return "North-west wind";
+      return { direction: "North-west wind", arrow: "↖" };
     } else {
-      return "Invalid direction";
+      return { direction: "Invalid direction", arrow: "" };
     }
   }
+  let windInfo = getWindDirection(weatherData.current_weather.winddirection);
+  console.log(windInfo.direction); // Напрям вітру (наприклад: "South wind")
+  console.log(windInfo.arrow); // Стрілка (наприклад: "↓")
 
   useEffect(() => {
     const fetchCityData = async () => {
       const latitude = weatherData.latitude;
       const longitude = weatherData.longitude;
-      // Замінили lang на accept-language
       const findCityUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`;
 
       try {
         const response = await axios.get(findCityUrl);
 
-        // Логування відповіді для перевірки, чи отримуємо дані англійською
-        console.log("API Response:", response.data);
-
-        // Перевірка на наявність міста та коду країни
         const city = response.data.address && response.data.address.city ? response.data.address.city : "Unknown";
         const countryCode = response.data.address && response.data.address.country_code ? response.data.address.country_code : "Unknown";
-
-        // Логування для перевірки даних
-        console.log("City:", city);
-        console.log("Country Code:", countryCode);
 
         // Оновлення стану з отриманими даними
         setSiting({ city, country_code: countryCode });
       } catch (error) {
-        // Обробка помилок, якщо вони виникають
         console.error("Error in the request:", error);
       }
     };
 
-    // Викликаємо функцію для отримання даних
     fetchCityData();
   }, [weatherData.latitude, weatherData.longitude]);
 
   const curTime = currentWeather.time;
+
   const DateComponent = (curTime) => {
     const inputDate = currentWeather.time;
     const parsedDate = parseISO(inputDate);
@@ -149,7 +144,10 @@ export const WeatherMain = ({ weatherData }) => {
                   </div>
                 </div>
               </div>
-              <div>{getWindDirection(windDirection)}</div>
+              <div className={style.wind_direction}>
+                <span>{windInfo.arrow}</span>
+                {windInfo.direction}
+              </div>
             </div>
 
             <div className={style.adding__location}>

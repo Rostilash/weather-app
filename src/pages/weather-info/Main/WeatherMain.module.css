@@ -132,3 +132,7 @@
   font-size: 90px;
   font-weight: normal;
 }
+.wind_direction span {
+  font-size: 18px;
+  margin-right: 10px;
+}
