@@ -29,9 +29,13 @@
   gap: 20px;
   transition: all 0.3s ease-in;
 }
-.head__nav span {
+a {
+  text-decoration: none;
+  color: white;
+}
+.head__nav a {
   cursor: pointer;
 }
-.head__nav span:hover {
+.head__nav a:hover {
   color: #321d6473;
 }

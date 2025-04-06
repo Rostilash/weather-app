@@ -11,8 +11,8 @@ export const WeatherHeader = () => {
         </p>
       </div>
       <div className={style.head__nav}>
-        <span>GitHub</span>
-        <span>About</span>
+        <a href="https://github.com/Rostilash/weather-app">GitHub</a>
+        <a>About</a>
       </div>
     </div>
   );
