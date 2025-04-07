@@ -8,6 +8,7 @@ export function getWeatherData() {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
+        // setTimeout(async () => {
         const response = await axios.get("https://api.open-meteo.com/v1/forecast", {
           params: {
             latitude: 48.6208,
@@ -33,6 +34,7 @@ export function getWeatherData() {
 
         setWeatherData(fullWeatherData);
         setLoading(false);
+        // }, 100000);
       } catch (error) {
         console.error("Error while fetching data:", error);
         setLoading(false);

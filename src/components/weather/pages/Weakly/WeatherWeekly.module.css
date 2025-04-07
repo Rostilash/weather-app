@@ -1,0 +1,13 @@
+.body {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: rgb(100, 237, 237); */
+}
+.about {
+  width: 1000px;
+  height: 600px;
+  background-color: rgba(0, 0, 0, 0.36);
+}

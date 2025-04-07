@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import style from "./WeatherMain.module.css";
+import style from "./WeatherContent.module.css";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { getWeatherCity } from "./../../../services/weatherServices";
-import { filterTheWeather, filterWindDirection, filterIsDay } from "./weatherUtils";
-import { loadingInfoGif } from "./../utils/loadingInfoGif";
+import { getWeatherCity } from "../../../services/weatherServices";
+import { filterTheWeather, filterWindDirection, filterIsDay } from "../utils/weatherUtils";
+import { loadingInfoGif } from "../utils/loadingInfoGif";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { WeatherInfo } from "./WeatherInfo";
 
-export const WeatherMain = ({ weatherData }) => {
+export const WeatherContent = ({ weatherData }) => {
   if (!weatherData) return;
   const { is_day, temperature, time, winddirection, windspeed } = weatherData.current_weather;
   const { humidity, apparent_temperature, visibility } = weatherData;
@@ -37,8 +38,32 @@ export const WeatherMain = ({ weatherData }) => {
     exit: { x: "-100vw", opacity: 0 },
   };
 
+  const weatherInfoProps = {
+    img1: "eye.png",
+    name1: "Visibility",
+    element1: visibility,
+    unit1: "km",
+
+    img2: "temperature.png",
+    name2: "Feels like",
+    element2: apparent_temperature,
+    unit2: "°C",
+  };
+
+  const weatherInfoProps2 = {
+    img1: "humidity.png",
+    name1: "Humidity",
+    element1: humidity,
+    unit1: "%",
+
+    img2: "wind.png",
+    name2: "Wind",
+    element2: windspeed,
+    unit2: "km/h",
+  };
+
   return (
-    <motion.div variants={pageTransition} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}>
+    <motion.div variants={pageTransition} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.25 }}>
       <div className={style.weather__info}>
         <div className={style.today__weather} onClick={handleClick}>
           <span className={style.dots}>...</span>
@@ -62,41 +87,9 @@ export const WeatherMain = ({ weatherData }) => {
             <span className={style.cloudy}>{windCode}</span>
           </div>
 
-          <div className={style.today_weather_visibility}>
-            <div className={style.visibility_context}>
-              <img src="../../../public/weather-icons/eye.png" alt="" />
-              <div className={style.visibility_context_text}>
-                <span>Visibility</span> <span>{visibility.toFixed(1)} km</span>
-              </div>
-            </div>
+          <WeatherInfo data={weatherInfoProps} />
+          <WeatherInfo data={weatherInfoProps2} />
 
-            <span className={style.divider}>|</span>
-
-            <div className={style.visibility_context}>
-              <img src="../../../public/weather-icons/temperature.png" alt="" />
-              <div className={style.visibility_context_text}>
-                <span style={{ marginLeft: "-5px" }}>Feels like</span> <span>{apparent_temperature} °C</span>
-              </div>
-            </div>
-          </div>
-
-          <div className={style.today_weather_visibility}>
-            <div className={style.visibility_context}>
-              <img src="../../../public/weather-icons/humidity.png" alt="" />
-              <div className={style.visibility_context_text}>
-                <span>Humidity</span> <span>{humidity}%</span>
-              </div>
-            </div>
-
-            <div className={style.divider}>|</div>
-
-            <div className={style.visibility_context}>
-              <img src="../../../public/weather-icons/wind.png" alt="" />
-              <div className={style.visibility_context_text}>
-                <span>Wind</span> <span>{windspeed} km/h</span>
-              </div>
-            </div>
-          </div>
           <div className={style.wind_direction}>
             <span>{windInfo.arrow}</span>
             {windInfo.direction}

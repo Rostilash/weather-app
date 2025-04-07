@@ -14,10 +14,10 @@ export const About = () => {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={{ duration: 0.6, ease: "easeInOut" }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
       className={style.body}
     >
-      <div>About</div>
+      <div className={style.about}>About</div>
     </motion.div>
   );
 };

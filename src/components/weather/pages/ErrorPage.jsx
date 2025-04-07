@@ -1,4 +1,4 @@
-import style from "./Weather.module.css";
+import style from "./../Weather.module.css";
 
 export const ErrorPage = () => {
   return (

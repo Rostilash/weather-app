@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
-import { Weather } from "./pages/weather-info/Weather";
+import { Weather } from "./components/weather/Weather";
 
 function App() {
   return (
