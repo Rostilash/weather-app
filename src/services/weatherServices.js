@@ -15,6 +15,8 @@ export function getWeatherData() {
             longitude: 22.2879,
             current_weather: true,
             hourly: "relative_humidity_2m,apparent_temperature,visibility",
+            daily:
+              "temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode,precipitation_probability_mean,uv_index_max,sunrise,sunset",
             timezone: "auto",
             language: "en",
           },

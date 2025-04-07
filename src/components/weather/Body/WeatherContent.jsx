@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
 import style from "./WeatherContent.module.css";
-import { format, parseISO } from "date-fns";
-import { enUS } from "date-fns/locale";
 import { getWeatherCity } from "../../../services/weatherServices";
-import { filterTheWeather, filterWindDirection, filterIsDay } from "../utils/weatherUtils";
 import { loadingInfoGif } from "../utils/loadingInfoGif";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { WeatherInfo } from "./WeatherInfo";
+import { infoPropsData } from "./infoPropsData";
+import { filterTheWeather, filterWindDirection, filterIsDay } from "../utils/weatherUtils";
+import { getFormattedDate } from "../utils/dateHelper";
 
 export const WeatherContent = ({ weatherData }) => {
   if (!weatherData) return;
-  const { is_day, temperature, time, winddirection, windspeed } = weatherData.current_weather;
-  const { humidity, apparent_temperature, visibility } = weatherData;
 
-  // To wind speed km/h
-  const windSpeedKmh = Math.round(windspeed * 3.6);
+  const { weatherInfoProps, weatherInfoProps2 } = infoPropsData({ weatherData });
+  const { is_day, temperature, time, winddirection } = weatherData.current_weather;
+
   // Formatted Date
-  const formattedDate = format(parseISO(time), "eeee dd/MM/yyyy", { locale: enUS });
+  const formattedDate = getFormattedDate(time);
+
   // Our city checker
   const cityInfo = getWeatherCity({ weatherData });
 
@@ -27,7 +26,6 @@ export const WeatherContent = ({ weatherData }) => {
   const isDay = filterIsDay(is_day);
 
   const navigate = useNavigate();
-
   const handleClick = (direction) => {
     navigate("/weather/weekly");
   };
@@ -36,30 +34,6 @@ export const WeatherContent = ({ weatherData }) => {
     initial: { x: "100vw", opacity: 0 },
     animate: { x: 0, opacity: 1 },
     exit: { x: "-100vw", opacity: 0 },
-  };
-
-  const weatherInfoProps = {
-    img1: "eye.png",
-    name1: "Visibility",
-    element1: visibility,
-    unit1: "km",
-
-    img2: "temperature.png",
-    name2: "Feels like",
-    element2: apparent_temperature,
-    unit2: "°C",
-  };
-
-  const weatherInfoProps2 = {
-    img1: "humidity.png",
-    name1: "Humidity",
-    element1: humidity,
-    unit1: "%",
-
-    img2: "wind.png",
-    name2: "Wind",
-    element2: windspeed,
-    unit2: "km/h",
   };
 
   return (

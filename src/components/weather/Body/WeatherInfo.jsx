@@ -11,7 +11,8 @@ export const WeatherInfo = ({ data }) => {
           <div className={style.visibility_context_text}>
             <span>{data.name1}</span>
             <span>
-              {data.element1.toFixed(1)} {data.unit1}
+              {data.element1.toFixed(1)}
+              {data.unit1}
             </span>
           </div>
         </div>
@@ -24,7 +25,8 @@ export const WeatherInfo = ({ data }) => {
           <div className={style.visibility_context_text}>
             <span style={{ marginLeft: "-5px" }}>{data.name2}</span>
             <span>
-              {data.element2} {data.unit2}
+              {data.element2}
+              {data.unit2}
             </span>
           </div>
         </div>
