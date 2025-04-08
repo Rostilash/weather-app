@@ -14,7 +14,7 @@ export function getWeatherData() {
             latitude: 48.6208,
             longitude: 22.2879,
             current_weather: true,
-            hourly: "relative_humidity_2m,apparent_temperature,visibility",
+            hourly: "temperature_2m,weathercode,relative_humidity_2m,apparent_temperature,visibility,windspeed_10m",
             daily:
               "temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode,precipitation_probability_mean,uv_index_max,sunrise,sunset",
             timezone: "auto",
@@ -26,12 +26,18 @@ export function getWeatherData() {
         const currentHumidity = hourly.relative_humidity_2m[0];
         const currentApparentTemperature = hourly.apparent_temperature[0];
         const currentVisibility = response.data.hourly.visibility[0] / 1000;
+        const currentTemperature = hourly.temperature_2m[0]; // поточна температура
+        const currentWeatherCode = hourly.weathercode[0]; // поточний код погоди
+        const currentWindspeed = hourly.windspeed_10m[0]; // поточна швидкість
 
         const fullWeatherData = {
           ...response.data,
+          temperature: currentTemperature,
+          weathercode: currentWeatherCode,
           humidity: currentHumidity,
           apparent_temperature: currentApparentTemperature,
           visibility: currentVisibility,
+          windspeed: currentWindspeed,
         };
 
         setWeatherData(fullWeatherData);

@@ -4,17 +4,8 @@
   justify-content: space-around;
   min-width: 600px;
 }
-
-.daily {
-  width: 600px;
-  background-color: rgba(0, 0, 0, 0.36);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Weekly css block */
-.weekly_block {
+/* first_body_block css block */
+.first_body_block {
   width: 600px;
   display: flex;
   align-items: center;
@@ -26,29 +17,91 @@
   padding: 20px;
 }
 
+.day_switcher {
+  margin: 20px 0;
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Forecast for today on 7 hours */
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20px;
+  background-color: rgba(0, 0, 0, 0.36);
+  margin-bottom: 20px;
+  border-radius: 20px;
+  text-align: center;
+}
+.forecast * {
+  padding: 15px 5px;
+}
+
+.hour_card {
+  padding: 10px;
+  border-radius: 8px;
+}
+.hour_card span {
+  font-size: 28px;
+}
+.disabledButton {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: auto;
+}
+/* second_body_block css block */
+/* Weekly css block */
+.weekly_block {
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.36);
+  border-radius: 25px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.weekly_block h3 {
+  text-align: left;
+  font-size: 1.1rem;
+}
+
 .list_items {
-  height: 100px;
+  height: 90px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 5px;
   justify-items: center;
   align-items: center;
   justify-content: center;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.253);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.158);
 }
+
+.list_items:last-child {
+  border: none;
+}
+
 .list_items:hover {
   background-color: #ffffff67;
-}
-.list_items h3 {
-  text-align: center;
-  font-size: 1.1rem;
 }
 
 .list_items p {
   display: flex;
   flex-direction: column;
   text-align: center;
-  gap: 5px; /* Відстань між рядками */
+  gap: 5px;
 }
 
 .icons {

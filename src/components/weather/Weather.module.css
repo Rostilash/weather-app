@@ -28,12 +28,13 @@
 }
 
 .loading {
-  height: 55vh;
+  height: 78vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .error {
+  height: 78vh;
   display: flex;
   justify-content: center;
   align-items: center;
