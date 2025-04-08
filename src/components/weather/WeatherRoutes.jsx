@@ -8,7 +8,7 @@ import { PreLoading } from "./pages/PreLoading";
 import { ErrorPage } from "./pages/ErrorPage";
 import style from "./Weather.module.css";
 
-export default function WeatherRoutes({ loading, weatherData }) {
+export default function WeatherRoutes({ loading, weatherData, getWeatherData }) {
   const location = useLocation();
 
   if (loading) return <PreLoading />;
@@ -21,7 +21,8 @@ export default function WeatherRoutes({ loading, weatherData }) {
           <Route path="/about" element={<About />} />
           <Route path="/weather" element={<WeatherContent weatherData={weatherData} />} />
           <Route path="/weather/weekly" element={<WeatherWeekly weatherData={weatherData} />} />
-          <Route path="/weather/map-city" element={<MapWithGeocoding />} />
+          <Route path="/weather/map-city" element={<MapWithGeocoding weatherData={weatherData} getWeatherData={getWeatherData} />} />
+
           <Route path="/" element={<Navigate to="/weather" />} />
           <Route path="*" element={<Navigate to="/weather" />} />
         </Routes>

@@ -82,8 +82,31 @@ export const WeatherWeekly = ({ weatherData }) => {
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className={style.body}
     >
-      {/* Поточний день */}
       <div className={style.first_body_block}>
+        {/* Displaying the forecast for the selected day */}
+        <div className={style.forecast}>
+          {forecastForSelectedDay.map((forecast, index) => (
+            <div key={forecast.time} className={style.hour_card}>
+              <div>{index === 0 ? "Now" : new Date(forecast.time).getHours()}</div>
+              <span>{forecast.icon}</span>
+              <div>{Math.round(forecast.temperature)}°C</div>
+              {/* <div>{forecast.humidity}% 💧</div> */}
+            </div>
+          ))}
+        </div>
+        {/* Weakly weather block */}
+        <div className={style.weekly_block}>
+          <h3 style={{ marginBottom: "20px" }}>WEEKLY WEATHER</h3>
+          <div className={style.weather_list}>
+            {weekForecast.map((day, i) => (
+              <WeeklyContent key={i} day={day} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Поточний день */}
+      <div className={style.second_body_block}>
         {!cityInfo && loadingInfoGif()}
         {cityInfo && (
           <h1>
@@ -105,29 +128,6 @@ export const WeatherWeekly = ({ weatherData }) => {
 
           {!isLastDay && <button onClick={() => handleChangeDay(1)}>Next Day</button>}
         </div> */}
-      </div>
-
-      <div className={style.second_body_block}>
-        {/* Displaying the forecast for the selected day */}
-        <div className={style.forecast}>
-          {forecastForSelectedDay.map((forecast, index) => (
-            <div key={forecast.time} className={style.hour_card}>
-              <div>{index === 0 ? "Now" : new Date(forecast.time).getHours()}</div>
-              <span>{forecast.icon}</span>
-              <div>{Math.round(forecast.temperature)}°C</div>
-              {/* <div>{forecast.humidity}% 💧</div> */}
-            </div>
-          ))}
-        </div>
-        {/* Weakly weather block */}
-        <div className={style.weekly_block}>
-          <h3 style={{ marginBottom: "20px" }}>WEEKLY WEATHER</h3>
-          <div className={style.weather_list}>
-            {weekForecast.map((day, i) => (
-              <WeeklyContent key={i} day={day} />
-            ))}
-          </div>
-        </div>
       </div>
     </motion.div>
   );

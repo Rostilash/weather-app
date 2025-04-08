@@ -1,57 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export function getWeatherData() {
-  const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(true);
+export const handleSearchTheCity = async (city) => {
+  if (!city) return null;
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        // setTimeout(async () => {
-        const response = await axios.get("https://api.open-meteo.com/v1/forecast", {
-          params: {
-            latitude: 48.6208,
-            longitude: 22.2879,
-            current_weather: true,
-            hourly: "temperature_2m,weathercode,relative_humidity_2m,apparent_temperature,visibility,windspeed_10m",
-            daily:
-              "temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode,precipitation_probability_mean,uv_index_max,sunrise,sunset",
-            timezone: "auto",
-            language: "en",
-          },
-        });
+  const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${city}&format=json&addressdetails=1`);
+  const data = await response.json();
 
-        const hourly = response.data.hourly;
-        const currentHumidity = hourly.relative_humidity_2m[0];
-        const currentApparentTemperature = hourly.apparent_temperature[0];
-        const currentVisibility = response.data.hourly.visibility[0] / 1000;
-        const currentTemperature = hourly.temperature_2m[0]; // поточна температура
-        const currentWeatherCode = hourly.weathercode[0]; // поточний код погоди
-        const currentWindspeed = hourly.windspeed_10m[0]; // поточна швидкість
-
-        const fullWeatherData = {
-          ...response.data,
-          temperature: currentTemperature,
-          weathercode: currentWeatherCode,
-          humidity: currentHumidity,
-          apparent_temperature: currentApparentTemperature,
-          visibility: currentVisibility,
-          windspeed: currentWindspeed,
-        };
-
-        setWeatherData(fullWeatherData);
-        setLoading(false);
-        // }, 100000);
-      } catch (error) {
-        console.error("Error while fetching data:", error);
-        setLoading(false);
-      }
-    };
-    fetchWeather();
-  }, []);
-  return { weatherData, loading };
-}
+  if (data && data.length > 0) {
+    const { lat, lon } = data[0];
+    return [parseFloat(lat), parseFloat(lon)]; // Повертаємо координати у числовому вигляді
+  } else {
+    console.log("Error: city not found");
+    return null;
+  }
+};
 
 export function getWeatherCity({ weatherData }) {
   const [cityInfo, setCityInfo] = useState(null);

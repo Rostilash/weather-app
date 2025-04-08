@@ -4,36 +4,8 @@
   justify-content: space-around;
   min-width: 600px;
 }
+
 /* first_body_block css block */
-.first_body_block {
-  width: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.36);
-  border-radius: 25px;
-  overflow: hidden;
-  padding: 20px;
-}
-
-.day_switcher {
-  margin: 20px 0;
-}
-
-button {
-  margin: 0 10px;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
 /* Forecast for today on 7 hours */
 .forecast {
   display: grid;
@@ -60,7 +32,7 @@ button:hover {
   opacity: 0.5;
   pointer-events: auto;
 }
-/* second_body_block css block */
+
 /* Weekly css block */
 .weekly_block {
   width: 600px;
@@ -118,4 +90,34 @@ button:hover {
   border-radius: 25px;
   overflow: hidden;
   padding: 20px;
+}
+
+/* Second_body_block css block */
+.second_body_block {
+  width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.36);
+  border-radius: 25px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.day_switcher {
+  margin: 20px 0;
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }

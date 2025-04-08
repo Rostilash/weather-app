@@ -26,8 +26,9 @@ export const WeatherContent = ({ weatherData }) => {
   const isDay = filterIsDay(is_day);
 
   const navigate = useNavigate();
-  const handleClick = (direction) => {
-    navigate("/weather/weekly");
+
+  const useDirectionClick = (direction) => {
+    navigate(`/weather/${direction}`);
   };
 
   const pageTransition = {
@@ -39,8 +40,9 @@ export const WeatherContent = ({ weatherData }) => {
   return (
     <motion.div variants={pageTransition} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.25 }}>
       <div className={style.weather__info}>
-        <div className={style.today__weather} onClick={handleClick}>
+        <div className={style.today__weather} onClick={() => useDirectionClick("weekly")}>
           <span className={style.dots}>...</span>
+
           <div className={style.today_weather_town}>
             <img src={`../../../public/weather-icons/${isDay}`} alt="Weather" />
             <div>
@@ -71,7 +73,7 @@ export const WeatherContent = ({ weatherData }) => {
         </div>
 
         <div className={style.adding__location}>
-          <div className={style.add_button}>
+          <div className={style.add_button} onClick={() => useDirectionClick("map-city")}>
             <span className={style.plus__sign}>+</span>
           </div>
           <p>Add new location</p>
