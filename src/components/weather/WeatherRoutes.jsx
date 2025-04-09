@@ -8,7 +8,7 @@ import { PreLoading } from "./pages/PreLoading";
 import { ErrorPage } from "./pages/ErrorPage";
 import style from "./Weather.module.css";
 
-export default function WeatherRoutes({ loading, weatherData, getWeatherData }) {
+export default function WeatherRoutes({ loading, weatherData, getWeatherData, multiWeatherData }) {
   const location = useLocation();
 
   if (loading) return <PreLoading />;
@@ -19,8 +19,13 @@ export default function WeatherRoutes({ loading, weatherData, getWeatherData }) 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/about" element={<About />} />
-          <Route path="/weather" element={<WeatherContent weatherData={weatherData} />} />
-          <Route path="/weather/weekly" element={<WeatherWeekly weatherData={weatherData} />} />
+          <Route
+            path="/weather"
+            element={<WeatherContent weatherData={weatherData} multiWeatherData={multiWeatherData} updateCoordinates={getWeatherData} />}
+          />
+          <Route path="/weather/weekly/:cityName" element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} />} />
+          {/* <Route path="/weather/weekly/:cityName" element={<WeeklyWeather />} /> */}
+
           <Route path="/weather/map-city" element={<MapWithGeocoding weatherData={weatherData} getWeatherData={getWeatherData} />} />
 
           <Route path="/" element={<Navigate to="/weather" />} />

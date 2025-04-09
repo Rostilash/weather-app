@@ -1,5 +1,3 @@
-import React from "react";
-
 export const infoPropsData = ({ weatherData }) => {
   const { windspeed } = weatherData.current_weather;
   const { humidity, apparent_temperature, visibility } = weatherData;

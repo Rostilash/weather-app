@@ -1,18 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./WeatherWeekly.module.css";
 import { motion } from "framer-motion";
 import WeeklyContent from "./WeeklyContent";
 import { weatherIcons } from "./../../utils/weatherUtils";
-import { getWeatherCity } from "../../../../services/weatherServices.js";
-import { loadingInfoGif } from "./../../utils/loadingInfoGif";
+import { useParams } from "react-router-dom";
 
-export const WeatherWeekly = ({ weatherData }) => {
-  const cityInfo = getWeatherCity({ weatherData });
-  const dailyData = weatherData.daily;
-  const hourlyData = weatherData.hourly;
+export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
+  const { cityName } = useParams();
 
+  const [cityInfo, setCityInfo] = useState(null);
+  const [dailyData, setDailyData] = useState(weatherData.daily); // fallback
+  const [hourlyData, setHourlyData] = useState(weatherData.hourly); // fallback
   const now = new Date();
   const [selectedDate, setSelectedDate] = useState(now.toISOString().split("T")[0]);
+
+  useEffect(() => {
+    if (!multiWeatherData || multiWeatherData.length === 0) return;
+
+    console.log("🔁 Checking for city:", cityName);
+
+    // Перекладаємо ім'я міста з URL, якщо є в мапі, або використовуємо як є
+    const translatedName = cityName[cityName.toLowerCase()] || cityName.toLowerCase();
+    console.log(translatedName);
+    console.log("📌 Comparing:", translatedName);
+
+    // Перебираємо масив multiWeatherData і шукаємо місто
+    const cityFromUrl = multiWeatherData.find((cityObj) => cityObj.address.city.toLowerCase().trim() === translatedName);
+
+    console.log("📍 Found cityFromUrl:", cityFromUrl);
+
+    if (cityFromUrl && cityFromUrl.data) {
+      setCityInfo(cityFromUrl);
+      setDailyData(cityFromUrl.data.daily);
+      setHourlyData(cityFromUrl.data.hourly);
+    }
+  }, [cityName, multiWeatherData]);
 
   // Adding from Data info for 7 days
   const getForecastForDate = (date) => {
@@ -31,8 +53,8 @@ export const WeatherWeekly = ({ weatherData }) => {
         return {
           time,
           temperature: hourlyData.temperature_2m[index],
-          humidity: hourlyData.relative_humidity_2m[index],
-          visibility: hourlyData.visibility[index],
+          humidity: Math.round(hourlyData.relative_humidity_2m[index]),
+          visibility: hourlyData.visibility[index].toFixed(1),
           weatherCode,
           icon: weatherIcons[weatherCode] || "❓",
         };
@@ -62,17 +84,6 @@ export const WeatherWeekly = ({ weatherData }) => {
     exit: { x: "-100vw", opacity: 0 },
   };
 
-  // Switching between days
-  // const handleChangeDay = (direction) => {
-  //   const newDate = new Date(selectedDate);
-  //   newDate.setDate(newDate.getDate() + direction); // Changing day +1 або -1
-  //   setSelectedDate(newDate.toISOString().split("T")[0]); // Refresh current day
-  // };
-
-  // buttons filter
-  // const isToday = selectedDate === now.toISOString().split("T")[0];
-  // const lastAvailableDate = dailyData.time[dailyData.time.length - 1];
-  // const isLastDay = selectedDate === lastAvailableDate;
   return (
     <motion.div
       variants={pageVariants}
@@ -107,27 +118,8 @@ export const WeatherWeekly = ({ weatherData }) => {
 
       {/* Поточний день */}
       <div className={style.second_body_block}>
-        {!cityInfo && loadingInfoGif()}
-        {cityInfo && (
-          <h1>
-            {cityInfo.city}, {cityInfo.country_code.toUpperCase()}
-          </h1>
-        )}
+        <h1>{cityName}</h1>
         <h2>{formatDate(selectedDate)}</h2>
-
-        {/* Buttons for switching by day */}
-        {/* <div className={style.day_switcher}>
-          <button
-            onClick={() => handleChangeDay(-1)}
-            disabled={isToday}
-            title={isToday ? "You can't view the past beyond today" : "View previous day"}
-            className={isToday ? style.disabledButton : ""}
-          >
-            Previous Day
-          </button>
-
-          {!isLastDay && <button onClick={() => handleChangeDay(1)}>Next Day</button>}
-        </div> */}
       </div>
     </motion.div>
   );
