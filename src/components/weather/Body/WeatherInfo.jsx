@@ -2,6 +2,7 @@ import React from "react";
 import style from "./WeatherContent.module.css";
 
 export const WeatherInfo = ({ data }) => {
+  // Using data from infoPropsData.js
   return (
     <>
       <div className={style.today_weather_visibility}>

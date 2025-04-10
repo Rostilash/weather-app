@@ -1,5 +1,5 @@
-export function filterTheWeather({ weatherData }) {
-  let windCode = weatherData.current_weather.weathercode;
+export function filterTheWeather({ item }) {
+  let windCode = item.data.current_weather.weathercode;
   if (windCode === 0) {
     windCode = "Almost clear";
   } else if (windCode === 1) {

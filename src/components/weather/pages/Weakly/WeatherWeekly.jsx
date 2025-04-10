@@ -17,17 +17,17 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   useEffect(() => {
     if (!multiWeatherData || multiWeatherData.length === 0) return;
 
-    console.log("🔁 Checking for city:", cityName);
+    // console.log("🔁 Checking for city:", cityName);
 
     // Перекладаємо ім'я міста з URL, якщо є в мапі, або використовуємо як є
     const translatedName = cityName[cityName.toLowerCase()] || cityName.toLowerCase();
-    console.log(translatedName);
-    console.log("📌 Comparing:", translatedName);
+
+    // console.log("📌 Comparing:", translatedName);
 
     // Перебираємо масив multiWeatherData і шукаємо місто
     const cityFromUrl = multiWeatherData.find((cityObj) => cityObj.address.city.toLowerCase().trim() === translatedName);
 
-    console.log("📍 Found cityFromUrl:", cityFromUrl);
+    // console.log("📍 Found cityFromUrl:", cityFromUrl);
 
     if (cityFromUrl && cityFromUrl.data) {
       setCityInfo(cityFromUrl);
@@ -45,7 +45,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       .map((time, index) => {
         const forecastTime = new Date(time).getTime();
 
-        // Показуємо лише ті години, що між "зараз" і "+7 годин"
+        // "now" and "+7 hours"
         if (forecastTime < currentTime || forecastTime > timeIn7Hours) return null;
 
         const weatherCode = hourlyData.weathercode?.[index];
@@ -84,6 +84,10 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
     exit: { x: "-100vw", opacity: 0 },
   };
 
+  const city = cityInfo?.address.city;
+
+  // console.log(cityFromUrl.address.city);
+
   return (
     <motion.div
       variants={pageVariants}
@@ -118,7 +122,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
 
       {/* Поточний день */}
       <div className={style.second_body_block}>
-        <h1>{cityName}</h1>
+        <h1>{city}</h1>
         <h2>{formatDate(selectedDate)}</h2>
       </div>
     </motion.div>

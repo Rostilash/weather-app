@@ -1,8 +1,10 @@
-export const infoPropsData = ({ weatherData }) => {
-  const { windspeed } = weatherData.current_weather;
-  const { humidity, apparent_temperature, visibility } = weatherData;
+export const infoPropsData = (item) => {
+  const humidity = item.data.hourly.relative_humidity_2m[0];
+  const apparent_temperature = Math.round(item.data.hourly.apparent_temperature[0]);
+  const visibility = item.data.hourly.visibility[0] / 1000;
+  const windSpeed = item.data.hourly.windspeed_10m[0];
   // To wind speed km/h
-  const windSpeedKmh = Math.round(windspeed * 3.6);
+  const windSpeedKmh = Math.round(windSpeed * 3.6);
 
   const weatherInfoProps = {
     img1: "eye.png",

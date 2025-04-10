@@ -34,7 +34,7 @@ export function MapWithGeocoding({ getWeatherData }) {
         navigate("/weather");
         // Need to change with useContext
         window.location.reload();
-      }, 2000);
+      }, 100);
 
       return () => clearTimeout(timer);
     }

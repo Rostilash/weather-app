@@ -1,0 +1,39 @@
+.scroll_buttons_containerЇ {
+  position: fixed;
+  left: 16px;
+  top: 300px;
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+}
+
+.button_left,
+.button_right {
+  width: 50px;
+  height: 350px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.button_left:hover,
+.button_right:hover {
+  background-color: #ffffff26;
+  width: 69px;
+}
+
+.button_left {
+  border-radius: 40px 0 0 40px;
+  left: 0;
+}
+
+.button_right {
+  border-radius: 0px 40px 40px 0;
+  right: 0;
+}

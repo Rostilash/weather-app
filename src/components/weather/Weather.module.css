@@ -2,7 +2,6 @@
 
 /* Styles for the page */
 .weather__main {
-  position: relative;
   background: radial-gradient(circle at 20% 80%, #64b5f6, transparent 40%), radial-gradient(circle at 80% 20%, #8e24aa, transparent 40%),
     linear-gradient(135deg, #512da8, #2196f3);
   display: flex;

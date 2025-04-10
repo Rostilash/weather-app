@@ -5,7 +5,8 @@ import { WeatherHeader } from "./Header/WeatherHeader";
 import WeatherRoutes from "./WeatherRoutes";
 import { WeatherFooter } from "./Footer/WeatherFooter";
 import { handleSetCoordinates } from "./utils/storage";
-import { address } from "framer-motion/client";
+import { ErrorPage } from "./pages/ErrorPage";
+import { PreLoading } from "./pages/PreLoading";
 
 export const Weather = () => {
   const savedCoordinates = JSON.parse(localStorage.getItem("coordinates")) || { lat: 48.6208, lon: 22.2879 };
@@ -33,8 +34,8 @@ export const Weather = () => {
             language: "en",
           },
         });
-
         const hourly = response.data.hourly;
+
         const fullWeatherData = {
           ...response.data,
           temperature: hourly.temperature_2m[0],
@@ -97,9 +98,6 @@ export const Weather = () => {
     fetchAllCitiesWeather();
   }, []);
 
-  // console.log(JSON.stringify(multiWeatherData, null, 2));
-  // console.log(multiWeatherData);
-
   const updateCoordinates = (newCoords) => {
     handleSetCoordinates(newCoords.lat, newCoords.lon);
     setCoordinates(newCoords);
@@ -109,11 +107,11 @@ export const Weather = () => {
     <>
       <div className={style.weather__main}>
         <WeatherHeader />
-        {error && <div className={style.error}>{error}</div>}
+        {error && <ErrorPage />}
         {!loading && weatherData ? (
           <WeatherRoutes loading={loading} weatherData={weatherData} getWeatherData={updateCoordinates} multiWeatherData={multiWeatherData} />
         ) : (
-          <div className={style.loading}>Завантаження...</div>
+          <PreLoading />
         )}
         <WeatherFooter />
       </div>
