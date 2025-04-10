@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+//Search city by name
 export const handleSearchTheCity = async (city) => {
   if (!city) return null;
 
   const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${city}&format=json&addressdetails=1&accept-language=en`);
   const data = await response.json();
-  console.log(data);
 
   if (data && data.length > 0) {
-    const { lat, lon, address } = data[0]; // отримуємо адрес
-    return { lat: parseFloat(lat), lon: parseFloat(lon), address }; // повертаємо координати і адресу
+    const { lat, lon, address } = data[0];
+
+    return { lat: parseFloat(lat), lon: parseFloat(lon), address }; //
   } else {
     console.log("Error: city not found");
     return null;

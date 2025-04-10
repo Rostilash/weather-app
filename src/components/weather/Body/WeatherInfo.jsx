@@ -22,7 +22,7 @@ export const WeatherInfo = ({ data }) => {
 
         {/* Second block */}
         <div className={style.visibility_context}>
-          <img src={`../../../public/weather-icons/${data.img2}`} alt={data.name2} />
+          <img src={`../../../public/weather-icons/${data.img2}`} alt={data.name2} style={{ height: "20px,", width: "20px" }} />
           <div className={style.visibility_context_text}>
             <span style={{ marginLeft: "-5px" }}>{data.name2}</span>
             <span>

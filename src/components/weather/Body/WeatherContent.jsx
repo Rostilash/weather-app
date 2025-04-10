@@ -8,6 +8,8 @@ import { infoPropsData } from "./infoPropsData";
 import { filterTheWeather, filterWindDirection, filterIsDay } from "../utils/weatherUtils";
 import { getFormattedDate } from "../utils/dateHelper";
 import { ScrollButtons } from "./../Buttons/ScrollButtons";
+// import { AddCitySearchBlock } from "../pages/AddingNewCity/AddingCity";
+import { AddCitySearchBlock } from "../pages/AddingNewCity/AddingCity";
 
 export const WeatherContent = ({ weatherData, multiWeatherData }) => {
   if (!weatherData) return;
@@ -56,11 +58,14 @@ export const WeatherContent = ({ weatherData, multiWeatherData }) => {
         className={`${style.wrapper} ${multiWeatherData.length > 3 ? style.wrapper_start : style.wrapper_center}`}
         ref={wrapperRef}
       >
-        {multiWeatherData.length > 3 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
+        {multiWeatherData.length > 2 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
 
         <div className={style.weather__info}>
           {/* Blocks */}
           {multiWeatherData.map((item, index) => {
+            {
+              /* getting values from our fetch array */
+            }
             const { weatherInfoProps, weatherInfoProps2 } = infoPropsData(item);
             const { city, country, country_code, state } = item.address;
             const { is_day, temperature, time, winddirection } = item.data.current_weather;
@@ -102,6 +107,7 @@ export const WeatherContent = ({ weatherData, multiWeatherData }) => {
             );
           })}
 
+          {/* Adding Block */}
           <AnimatePresence mode="wait">
             {showAddingBlock ? (
               <motion.div
@@ -118,17 +124,7 @@ export const WeatherContent = ({ weatherData, multiWeatherData }) => {
                 <p>Add new location</p>
               </motion.div>
             ) : (
-              <motion.div
-                key="newContent"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 30 }}
-                transition={{ duration: 0.3 }}
-                className={style.adding__location} // створи новий стиль або використай існуючий
-              >
-                <h1>Find City 📌</h1>
-                <button onClick={() => setShowAddingBlock(true)}>Back</button>
-              </motion.div>
+              <AddCitySearchBlock setShowAddingBlock={setShowAddingBlock} />
             )}
           </AnimatePresence>
 

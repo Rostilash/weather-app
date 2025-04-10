@@ -86,8 +86,6 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
 
   const city = cityInfo?.address.city;
 
-  // console.log(cityFromUrl.address.city);
-
   return (
     <motion.div
       variants={pageVariants}
@@ -105,10 +103,10 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
               <div>{index === 0 ? "Now" : new Date(forecast.time).getHours()}</div>
               <span>{forecast.icon}</span>
               <div>{Math.round(forecast.temperature)}°C</div>
-              {/* <div>{forecast.humidity}% 💧</div> */}
             </div>
           ))}
         </div>
+
         {/* Weakly weather block */}
         <div className={style.weekly_block}>
           <h3 style={{ marginBottom: "20px" }}>WEEKLY WEATHER</h3>

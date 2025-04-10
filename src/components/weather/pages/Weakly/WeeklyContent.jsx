@@ -17,7 +17,8 @@ export default function WeeklyContent({ day }) {
       </p>
 
       <p>
-        <span>🌡 min{day.minTemp}°C</span>🌡 max{day.maxTemp}°C
+        <span>🌡 max {Math.round(day.maxTemp)}°C</span>
+        <span>🌡 min {Math.round(day.minTemp)}°C</span>
       </p>
       <p>💧 {day.precipitation} mm</p>
       <p>💨 {day.windspeed} km/h</p>
