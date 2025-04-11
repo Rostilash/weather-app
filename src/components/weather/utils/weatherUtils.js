@@ -1,21 +1,3 @@
-export function filterTheWeather({ item }) {
-  let windCode = item.data.current_weather.weathercode;
-  if (windCode === 0) {
-    windCode = "Almost clear";
-  } else if (windCode === 1) {
-    windCode = "Partly cloudy";
-  } else if (windCode === 2) {
-    windCode = "Cloudy";
-  } else if (windCode === 3) {
-    windCode = "Rain";
-  } else if (windCode === 4) {
-    windCode = "Snow";
-  } else if (windCode === 5) {
-    windCode = "Fog";
-  }
-  return windCode;
-}
-
 export function filterWindDirection(windDirection) {
   if ((windDirection >= 0 && windDirection < 22.5) || (windDirection >= 337.5 && windDirection <= 360)) {
     return { direction: "North wind", arrow: "↑" };
@@ -40,10 +22,10 @@ export function filterWindDirection(windDirection) {
 
 export function filterIsDay(day) {
   if (day === 1) {
-    return "sun.png";
+    return "https://media.giphy.com/media/a7Cge6vvMaPzJnPSiF/giphy.gif?cid=ecf05e477ww9r4u51n2ssmlaxlwt2i4ds2kis2ch17vwdsfn&ep=v1_stickers_search&rid=giphy.gif&ct=s";
   }
   if (day === 0) {
-    return "moon.png";
+    return "https://media.giphy.com/media/P9bgDevMjIoRzmvJlJ/giphy.gif?cid=ecf05e47ikdn8mntkf6e7poho32or9mj51xmi7q44vf4m1wi&ep=v1_stickers_search&rid=giphy.gif&ct=s";
   }
 }
 
@@ -88,6 +70,37 @@ export const weatherIcons = {
   51: "🌦",
   53: "🌧",
   55: "🌧",
+  56: "🌧❄",
+  57: "🌧❄",
+  61: "🌦",
+  63: "🌧",
+  65: "🌧",
+  66: "🌧❄",
+  67: "🌧❄",
+  71: "🌨",
+  73: "🌨",
+  75: "❄️",
+  77: "🌨",
+  80: "🌦",
+  81: "🌦",
+  82: "⛈",
+  85: "🌨",
+  86: "❄️",
+  95: "⛈",
+  96: "⛈🌨",
+  99: "⛈❄️",
+};
+
+export const weatherBackgroundGiphs = {
+  0: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm92dmc2anR5cWo3dDJhZnVwcm1yaDR2aG91anJ5YWVrdGhrYzNreSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3og0ICH4dOeWmrQMqA/giphy.gif",
+  1: "🌤",
+  2: "https://media.giphy.com/media/0Styincf6K2tvfjb5Q/giphy.gif?cid=ecf05e47n6yawu0gqlqg2g9ofzqnoc7fozme4r2abtcapare&ep=v1_gifs_search&rid=giphy.gif&ct=g",
+  3: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzAzc2MwdTBueWJqMjFxeGM4ZjZtMmZlOTZkb29vZGVoNGFxZzY3biZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/7kkfv74y9Uvp7EpiV1/giphy.gif",
+  45: "🌫",
+  48: "🌫❄",
+  51: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWptaXQzYmtsaTU1Z2pqaGg5YTRyejE2M3RvNzB5dm5pN3RmNWg3aCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/fBP4DVvMfkt7jFDeKU/giphy.gif",
+  53: "🌧",
+  55: "https://media.giphy.com/media/3o85xsNYU6Rlnw9cly/giphy.gif?cid=ecf05e47zdg7r9szjrodvf42lf10w0zr6xmze6dst397vxod&ep=v1_gifs_search&rid=giphy.gif&ct=g",
   56: "🌧❄",
   57: "🌧❄",
   61: "🌦",

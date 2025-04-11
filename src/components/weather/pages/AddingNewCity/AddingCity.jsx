@@ -45,6 +45,12 @@ export const AddCitySearchBlock = ({ setShowAddingBlock }) => {
     localStorage.setItem("cityHistory", JSON.stringify(updated));
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      searchCity();
+    }
+  };
+
   return (
     <motion.div
       key="newContent"
@@ -61,6 +67,7 @@ export const AddCitySearchBlock = ({ setShowAddingBlock }) => {
         placeholder="Enter city name"
         value={inputSearchValue}
         onChange={(e) => setInputSearchValue(e.target.value)}
+        onKeyPress={handleKeyPress} // Add this to handle Enter key
         className={style.input_style}
       />
 

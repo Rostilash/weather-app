@@ -2,11 +2,21 @@ import React, { useState, useEffect } from "react";
 import style from "./WeatherWeekly.module.css";
 import { motion } from "framer-motion";
 import WeeklyContent from "./WeeklyContent";
-import { weatherIcons } from "./../../utils/weatherUtils";
+import { weatherBackgroundGiphs, weatherIcons } from "./../../utils/weatherUtils";
 import { useParams } from "react-router-dom";
 
 export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const { cityName } = useParams();
+  const ourCity = multiWeatherData.find((object) => object.address.city.toLowerCase() === cityName?.toLowerCase());
+
+  // Перевіряємо, чи є дані
+  const dailyWeather = ourCity?.data?.daily;
+
+  if (!dailyWeather) {
+    console.log("Дані про погоду не знайдені для цього міста");
+  } else {
+    console.log(dailyWeather);
+  }
 
   const [cityInfo, setCityInfo] = useState(null);
   const [dailyData, setDailyData] = useState(weatherData.daily); // fallback
@@ -64,6 +74,8 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
 
   // Отримуємо прогноз для вибраного дня
   const forecastForSelectedDay = getForecastForDate();
+  const weatherCodeHourly = forecastForSelectedDay[0].weatherCode;
+  const weatherGif = weatherBackgroundGiphs[weatherCodeHourly];
 
   // Форматування дати для заголовка
   const formatDate = (date) => new Date(date).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
@@ -120,6 +132,10 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
 
       {/* Поточний день */}
       <div className={style.second_body_block}>
+        <div className={style.backgroundGif}>
+          <img src={`${weatherGif}`} />
+        </div>
+
         <h1>{city}</h1>
         <h2>{formatDate(selectedDate)}</h2>
       </div>
