@@ -21,7 +21,7 @@
   gap: 20px;
   width: max-content;
 }
-
+/* Block item */
 .today__weather {
   position: relative;
   padding: 50px 30px;
@@ -41,6 +41,7 @@
 .today__weather:hover {
   background-color: #ffffff26;
 }
+/* dots & options */
 .dots {
   position: absolute;
   top: 15px;
@@ -50,7 +51,38 @@
   display: inline-block;
   transform: rotate(90deg);
   cursor: pointer;
+  height: 55px;
+  width: 50px;
 }
+.dropdown {
+  position: absolute;
+  top: 10px;
+  right: -180px;
+  background-color: rgba(255, 255, 255, 0.11);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+  min-width: 200px;
+  margin-top: 10px;
+  padding: 10px 0;
+}
+
+.dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dropdown li {
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown li:hover {
+  background-color: #f4f4f4;
+  color: #007bff;
+}
+/* end dots & options */
 
 .today_weather_town {
   display: flex;
@@ -122,7 +154,7 @@
   justify-content: center;
   padding: 20px 0;
   height: 530px;
-  min-width: 362px;
+  min-width: 340px;
   background-color: rgba(0, 0, 0, 0.36);
   border-radius: 45px;
   flex-direction: column;

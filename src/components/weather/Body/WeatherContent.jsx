@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import style from "./WeatherContent.module.css";
-import { loadingInfoGif } from "../utils/loadingInfoGif";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { WeatherInfo } from "./WeatherInfo";
@@ -8,13 +7,13 @@ import { infoPropsData } from "./infoPropsData";
 import { filterTheWeather, filterWindDirection, filterIsDay } from "../utils/weatherUtils";
 import { getFormattedDate } from "../utils/dateHelper";
 import { ScrollButtons } from "./../Buttons/ScrollButtons";
-// import { AddCitySearchBlock } from "../pages/AddingNewCity/AddingCity";
 import { AddCitySearchBlock } from "../pages/AddingNewCity/AddingCity";
 
-export const WeatherContent = ({ weatherData, multiWeatherData }) => {
-  if (!weatherData) return;
-
+export const WeatherContent = ({ multiWeatherData }) => {
+  if (!multiWeatherData) return;
   const [showAddingBlock, setShowAddingBlock] = useState(true);
+  const [activeDropdownIndex, setActiveDropdownIndex] = useState(null);
+  // const [closeAllWindows, setCloseAllWindows] = useState(null);
 
   const handleAddClick = () => {
     setShowAddingBlock(false);
@@ -32,9 +31,13 @@ export const WeatherContent = ({ weatherData, multiWeatherData }) => {
   };
 
   const wrapperRef = useRef(null);
+  const handleDotsClick = (e, index) => {
+    // Preventing transition when clicking on span
+    e.stopPropagation();
+    setActiveDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   const scrollAmount = 760; // block width + 20px gap
-
   const handleScrollLeft = () => {
     if (wrapperRef.current) {
       wrapperRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
@@ -64,21 +67,47 @@ export const WeatherContent = ({ weatherData, multiWeatherData }) => {
           {/* Blocks */}
           {multiWeatherData.map((item, index) => {
             {
-              /* getting values from our fetch array */
+              /* getting data from our fetch array */
             }
             const { weatherInfoProps, weatherInfoProps2 } = infoPropsData(item);
             const { city, country, country_code, state } = item.address;
             const { is_day, temperature, time, winddirection } = item.data.current_weather;
+
+            // function deleting the city
+            const handleDelete = async (city) => {
+              const cityFromLocal = JSON.parse(localStorage.getItem("cityHistory")) || [];
+
+              const updatedCity = cityFromLocal.filter((localStorageCity) => {
+                const storageCity = localStorageCity.address.city;
+                return city !== storageCity;
+              });
+              localStorage.setItem("cityHistory", JSON.stringify(updatedCity));
+              // Need to change it later
+              window.location.reload();
+            };
+
             // Formatted Date
             const formattedDate = getFormattedDate(time);
             // Filter
             const windCode = filterTheWeather({ item });
             const isDay = filterIsDay(is_day);
             const windInfo = filterWindDirection(winddirection);
-
+            console.log(index);
             return (
-              <div key={city} className={style.today__weather} onClick={() => useDirectionClick("weekly", item.address.city.toLowerCase())}>
-                <span className={style.dots}>...</span>
+              <div key={index} className={style.today__weather} onClick={() => useDirectionClick("weekly", item.address.city.toLowerCase())}>
+                <span className={style.dots} onClick={(e) => handleDotsClick(e, index)}>
+                  ...
+                </span>
+                {/* //dots option */}
+                {activeDropdownIndex === index && (
+                  <div className={style.dropdown}>
+                    <ul>
+                      <li>Option 1</li>
+                      {/* <li onClick={() => useDirectionClick("map-city", "")}>Find Map</li> */}
+                      <li onClick={() => handleDelete(city)}>Видалити</li>
+                    </ul>
+                  </div>
+                )}
                 <div className={style.today_weather_town}>
                   <img src={`../../../public/weather-icons/${isDay}`} alt="Weather" />
                   <div>
@@ -127,14 +156,6 @@ export const WeatherContent = ({ weatherData, multiWeatherData }) => {
               <AddCitySearchBlock setShowAddingBlock={setShowAddingBlock} />
             )}
           </AnimatePresence>
-
-          {/* Adding Block */}
-          {/* <div className={style.adding__location}>
-            <div className={style.add_button} onClick={() => useDirectionClick("map-city", "")}>
-              <span className={style.plus__sign}>+</span>
-            </div>
-            <p>Add new location</p>
-          </div> */}
         </div>
       </motion.div>
     </>

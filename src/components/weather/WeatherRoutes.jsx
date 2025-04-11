@@ -19,10 +19,7 @@ export default function WeatherRoutes({ loading, weatherData, getWeatherData, mu
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/about" element={<About />} />
-          <Route
-            path="/weather"
-            element={<WeatherContent weatherData={weatherData} multiWeatherData={multiWeatherData} updateCoordinates={getWeatherData} />}
-          />
+          <Route path="/weather" element={<WeatherContent multiWeatherData={multiWeatherData} updateCoordinates={getWeatherData} />} />
           <Route path="/weather/weekly/:cityName" element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} />} />
           {/* <Route path="/weather/weekly/:cityName" element={<WeeklyWeather />} /> */}
 
