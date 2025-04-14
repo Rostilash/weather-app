@@ -1,10 +1,10 @@
 .adding__location {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px 0;
+  /* justify-content: center; */
+  padding: 40px 20px;
   height: 530px;
-  min-width: 340px;
+  min-width: 300px;
   background-color: rgba(0, 0, 0, 0.36);
   border-radius: 45px;
   flex-direction: column;
@@ -17,11 +17,13 @@ h1 {
   text-align: center;
 }
 .input_style {
-  font-size: 24px;
+  font-size: 20px;
+  width: 200px;
   border: none;
   padding: 8px;
   text-align: center;
-  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .close_button {
@@ -30,4 +32,45 @@ h1 {
   top: 10px;
   font-size: 30px;
   cursor: pointer;
+}
+
+.autocomplete_list {
+  position: absolute;
+  width: 200px;
+  /* background-color: white; */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  /* margin-top: 4px; */
+  list-style: none;
+  padding: 0;
+  z-index: 10;
+  /* max-height: 150px; */
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete_item {
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.autocomplete_item:hover {
+  color: black;
+  background-color: #f1f1f1;
+}
+
+.error_massage {
+  color: #f98080;
+}
+.autocomplete_item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.autocomplete_item:hover,
+.autocomplete_item.active {
+  background-color: #e0e0e0;
+  border-radius: 4px;
 }

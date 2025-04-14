@@ -20,31 +20,46 @@ export const handleSearchTheCity = async (city) => {
 
 export const fetchWeatherByCoords = async ({ lat, lon }) => {
   const response = await fetch(`https://api.open-meteo.com/v1/forecast?...&latitude=${lat}&longitude=${lon}`);
-  console.log(response);
   return response.json();
 };
 
-export function getWeatherCity({ weatherData }) {
-  const [cityInfo, setCityInfo] = useState(null);
-  useEffect(() => {
-    const fetchCityData = async () => {
-      const latitude = weatherData.latitude;
-      const longitude = weatherData.longitude;
-      const findCityUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`;
+// export function getWeatherCity({ weatherData }) {
+//   const [cityInfo, setCityInfo] = useState(null);
+//   useEffect(() => {
+//     const fetchCityData = async () => {
+//       const latitude = weatherData.latitude;
+//       const longitude = weatherData.longitude;
+//       const findCityUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`;
 
-      try {
-        const response = await axios.get(findCityUrl);
-        const city = response.data.address && response.data.address.city ? response.data.address.city : "Unknown";
-        const countryCode = response.data.address && response.data.address.country_code ? response.data.address.country_code : "Unknown";
+//       try {
+//         const response = await axios.get(findCityUrl);
+//         const city = response.data.address && response.data.address.city ? response.data.address.city : "Unknown";
+//         const countryCode = response.data.address && response.data.address.country_code ? response.data.address.country_code : "Unknown";
 
-        setCityInfo({ city, country_code: countryCode });
-      } catch (error) {
-        console.error("Error in the request:", error);
-      }
-    };
+//         setCityInfo({ city, country_code: countryCode });
+//       } catch (error) {
+//         console.error("Error in the request:", error);
+//       }
+//     };
 
-    fetchCityData();
-  }, [weatherData.latitude, weatherData.longitude]);
+//     fetchCityData();
+//   }, [weatherData.latitude, weatherData.longitude]);
 
-  return cityInfo;
-}
+//   return cityInfo;
+// }
+
+export const fetchCityDate = async () => {
+  try {
+    const response = await fetch("https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json");
+    const data = await response.json();
+
+    // Filter cities in Ukraine using the country code 'UA'
+    const ukraineCities = data.filter((city) => city.country === "UA");
+
+    // console.log("Filtered Ukraine cities:", ukraineCities);
+    return ukraineCities;
+  } catch (error) {
+    console.error("Error fetching cities:", error);
+    return [];
+  }
+};

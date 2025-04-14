@@ -112,6 +112,9 @@
 h1 {
   z-index: 5;
 }
+h2 {
+  z-index: 5;
+}
 button {
   margin: 0 10px;
   padding: 10px;

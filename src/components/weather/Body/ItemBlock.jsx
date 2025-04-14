@@ -1,40 +1,45 @@
+import { useNavigate } from "react-router-dom";
 import { WeatherInfo } from "./WeatherInfo";
 import { infoPropsData } from "./infoPropsData";
-import { filterWindDirection, filterIsDay, weatherDescriptions, weatherBackgroundGiphs } from "../utils/weatherUtils";
-import { weatherIcons } from "./../utils/weatherUtils";
+import { filterWindDirection, filterIsDay, weatherDescriptions, weatherBackgroundGiphs, weatherIcons } from "../utils/weatherFilterData";
 import { getFormattedDate } from "../utils/dateHelper";
-import { useNavigate } from "react-router-dom";
 import style from "./WeatherContent.module.css";
 import { useDropdown } from "./../hooks/useDropdown";
 
-export const ItemBlock = ({ item, index }) => {
-  const { city, country_code, state, country } = item.address;
+export const ItemBlock = ({ item, index, onCityDelete }) => {
+  const { city, country_code, village } = item.address;
   const { is_day, temperature, time, winddirection, weathercode } = item.data.current_weather;
   const weatherCodeIcon = weatherIcons[weathercode];
   const weatherDescription = weatherDescriptions[weathercode];
   const weahterGifs = weatherBackgroundGiphs[weathercode];
+
   //Drop down function
-  const { activeDropdownIndex, handleDotsClick, dropdownRef } = useDropdown();
+  const { activeDropdownIndex, handleDotsClick, dropdownRef, closeDropdown } = useDropdown();
   const { weatherInfoProps, weatherInfoProps2 } = infoPropsData(item);
 
-  // function deleting the city
+  // function that deleting the city
   const handleClickDelete = async (city) => {
     const cityFromLocal = JSON.parse(localStorage.getItem("cityHistory")) || [];
-
     const updatedCity = cityFromLocal.filter((localStorageCity) => {
       const storageCity = localStorageCity.address.city;
       return city !== storageCity;
     });
     localStorage.setItem("cityHistory", JSON.stringify(updatedCity));
-    // Need to change it later
-    window.location.reload();
+
+    //return dropdown to null
+    closeDropdown();
+
+    //rerender the page
+    onCityDelete(city);
   };
 
   // Formatted Date
   const formattedDate = getFormattedDate(time);
+
   // Filter
   const isDay = filterIsDay(is_day);
   const windInfo = filterWindDirection(winddirection);
+
   // Navigate
   const navigate = useNavigate();
   const handleNavigationClick = (direction, cityName) => {
@@ -49,13 +54,21 @@ export const ItemBlock = ({ item, index }) => {
       <span className={style.dots} onClick={(e) => handleDotsClick(e, index)}>
         ...
       </span>
+
       {/* //dots option */}
       {activeDropdownIndex === index && (
         <div className={style.dropdown} ref={dropdownRef}>
           <ul>
             {/* <li>Option 1</li> */}
             {/* <li onClick={() => useDirectionClick("map-city", "")}>Find Map</li> */}
-            <li onClick={() => handleClickDelete(city)}>Видалити</li>
+            <li
+              onClick={(e) => {
+                e.stopPropagation(); // Stopping the action with loading parent function navigation.
+                handleClickDelete(city);
+              }}
+            >
+              Delete
+            </li>
           </ul>
         </div>
       )}
@@ -63,7 +76,7 @@ export const ItemBlock = ({ item, index }) => {
         <img src={`${isDay}`} alt="Weather" />
         <div>
           <h3>
-            {city.toUpperCase()} / {country_code.toUpperCase()}
+            {city?.toUpperCase() || village?.toUpperCase()} / {country_code.toUpperCase()}
           </h3>
           <p>{formattedDate}</p>
         </div>

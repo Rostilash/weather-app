@@ -14,9 +14,23 @@ export const Weather = () => {
   const [coordinates, setCoordinates] = useState(savedCoordinates);
   const [weatherData, setWeatherData] = useState(null);
   const [multiWeatherData, setMultiWeatherData] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cityHistory, setCityHistory] = useState(() => {
+    return JSON.parse(localStorage.getItem("cityHistory")) || [];
+  });
+
+  const addCityToHistory = (city) => {
+    const updated = [city, ...cityHistory];
+    localStorage.setItem("cityHistory", JSON.stringify(updated));
+    setCityHistory(updated);
+  };
+
+  const deleteCityFromHistory = (cityName) => {
+    const updated = cityHistory.filter((c) => c.address.city !== cityName);
+    localStorage.setItem("cityHistory", JSON.stringify(updated));
+    setCityHistory(updated);
+  };
 
   // Weather data retrieval function
   useEffect(() => {
@@ -58,10 +72,8 @@ export const Weather = () => {
   }, [coordinates]);
 
   useEffect(() => {
-    const savedCities = JSON.parse(localStorage.getItem("cityHistory")) || [];
-
     const fetchAllCitiesWeather = async () => {
-      const weatherPromises = savedCities.map(async (city) => {
+      const weatherPromises = cityHistory.map(async (city) => {
         try {
           const response = await axios.get("https://api.open-meteo.com/v1/forecast", {
             params: {
@@ -74,7 +86,6 @@ export const Weather = () => {
               timezone: "auto",
             },
           });
-          // console.log(response.data);
 
           return {
             city: city.inputName,
@@ -82,8 +93,6 @@ export const Weather = () => {
             lat: city.lat,
             lon: city.lon,
             data: response.data,
-            timezone: "auto",
-            language: "en",
           };
         } catch (err) {
           console.error(`Помилка при отриманні погоди для ${city.name}`, err);
@@ -92,11 +101,11 @@ export const Weather = () => {
       });
 
       const allWeather = await Promise.all(weatherPromises);
-
-      setMultiWeatherData(allWeather.filter(Boolean)); // Прибрати null
+      setMultiWeatherData(allWeather.filter(Boolean));
     };
+
     fetchAllCitiesWeather();
-  }, []);
+  }, [cityHistory]);
 
   const updateCoordinates = (newCoords) => {
     handleSetCoordinates(newCoords.lat, newCoords.lon);
@@ -109,7 +118,14 @@ export const Weather = () => {
         <WeatherHeader />
         {error && <ErrorPage />}
         {!loading && weatherData ? (
-          <WeatherRoutes loading={loading} weatherData={weatherData} getWeatherData={updateCoordinates} multiWeatherData={multiWeatherData} />
+          <WeatherRoutes
+            loading={loading}
+            weatherData={weatherData}
+            getWeatherData={updateCoordinates}
+            multiWeatherData={multiWeatherData}
+            addCityToHistory={addCityToHistory}
+            deleteCityFromHistory={deleteCityFromHistory}
+          />
         ) : (
           <PreLoading />
         )}

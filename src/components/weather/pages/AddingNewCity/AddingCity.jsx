@@ -1,35 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { handleSearchTheCity } from "../../../../services/weatherServices.js";
+import { handleSearchTheCity, fetchCityDate } from "../../../../services/weatherServices.js";
 import { handleSetCoordinates } from "../../utils/storage";
 import style from "./AddingCity.module.css";
 
-export const AddCitySearchBlock = ({ setShowAddingBlock }) => {
+export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToHistory }) => {
   const [inputSearchValue, setInputSearchValue] = useState("");
+  const [errorMassage, setErrorMassage] = useState("");
+  const [allCities, setAllCities] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const filtered = allCities.filter((c) => inputSearchValue.length > 0 && c.toLowerCase().startsWith(inputSearchValue.toLowerCase()));
+  const exactMatch = allCities.some((c) => c.toLowerCase() === inputSearchValue.toLowerCase());
+
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    const loadCities = async () => {
+      const citiesData = await fetchCityDate();
+      const cityNames = citiesData.map((city) => (typeof city === "object" && city.name ? city.name : null)).filter(Boolean);
+      setAllCities(cityNames);
+    };
+    loadCities();
+  }, []);
 
   const searchCity = async () => {
-    //Looking city from input value
     const position = await handleSearchTheCity(inputSearchValue);
-
     if (position && position.lat && position.lon) {
       const { lat, lon, address } = position;
-
       handleSetCoordinates(lat, lon);
-
       await saveCityToHistory(inputSearchValue, lat, lon, address);
-
-      window.location.reload();
     } else {
       console.error("Error: Coordinates not found.");
     }
   };
 
-  //Save it to LocalStorage
   const saveCityToHistory = async (inputSearchValue, lat, lon, address) => {
     const cityHistory = JSON.parse(localStorage.getItem("cityHistory")) || [];
-
     const tolerance = 0.0001;
-    // if lat or lon is in our storage make return
     const exists = cityHistory.find((c) => {
       const latMatches = Math.abs(c.lat - lat) < tolerance;
       const lonMatches = Math.abs(c.lon - lon) < tolerance;
@@ -37,17 +44,37 @@ export const AddCitySearchBlock = ({ setShowAddingBlock }) => {
     });
 
     if (exists) {
-      console.log("City already exists in history.");
+      setErrorMassage("City already exists in history.");
       return;
     }
 
-    const updated = [{ inputName: inputSearchValue, lat, lon, address }, ...cityHistory];
+    setErrorMassage("City Added");
+    const newCity = { inputName: inputSearchValue, lat, lon, address };
+    const updated = [newCity, ...cityHistory];
+
     localStorage.setItem("cityHistory", JSON.stringify(updated));
+    addCityToHistory(newCity);
+    onCityAdded();
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      searchCity();
+  const handleKeyDown = (e) => {
+    if (filtered.length === 0 || exactMatch) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev + 1) % filtered.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
+    } else if (e.key === "Enter") {
+      if (activeIndex >= 0) {
+        // Якщо вибрано елемент, встановлюємо його значення в input
+        setInputSearchValue(filtered[activeIndex]);
+        setActiveIndex(-1);
+      } else {
+        // Якщо елемент не вибраний, викликаємо searchCity
+        searchCity();
+      }
     }
   };
 
@@ -61,29 +88,46 @@ export const AddCitySearchBlock = ({ setShowAddingBlock }) => {
       className={style.adding__location}
     >
       <h1>Find City</h1>
+      <p className={style.error_massage}>{errorMassage}</p>
 
-      <input
-        type="text"
-        placeholder="Enter city name"
-        value={inputSearchValue}
-        onChange={(e) => setInputSearchValue(e.target.value)}
-        onKeyPress={handleKeyPress} // Add this to handle Enter key
-        className={style.input_style}
-      />
+      <div style={{ position: "relative", width: "100%" }}>
+        <input
+          type="text"
+          placeholder="🔍Enter city name"
+          value={inputSearchValue}
+          onChange={(e) => {
+            setInputSearchValue(e.target.value);
+            setActiveIndex(-1);
+          }}
+          onKeyDown={handleKeyDown}
+          className={style.input_style}
+        />
 
-      <div style={{ marginTop: "10px" }}>
-        <span className={style.close_button} onClick={() => setShowAddingBlock(true)}>
-          X
-        </span>
+        {filtered.length > 0 && !exactMatch && (
+          <motion.ul className={style.autocomplete_list} ref={listRef}>
+            {filtered.slice(0, 7).map((cityName, idx) => (
+              <li
+                key={idx}
+                onClick={() => {
+                  setInputSearchValue(cityName);
+                  setActiveIndex(-1);
+                }}
+                className={`${style.autocomplete_item} ${idx === activeIndex ? style.active : ""}`}
+              >
+                {cityName}
+              </li>
+            ))}
+          </motion.ul>
+        )}
 
         <button onClick={searchCity} className="your-button-style">
           Search
         </button>
-
-        {/* <button onClick={() => setShowAddingBlock(true)} className="your-button-style" style={{ marginLeft: "10px" }}>
-          Back
-        </button> */}
       </div>
+
+      <span className={style.close_button} onClick={() => setShowAddingBlock(true)}>
+        X
+      </span>
     </motion.div>
   );
 };

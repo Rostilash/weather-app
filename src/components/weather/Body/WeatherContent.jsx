@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import style from "./WeatherContent.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollButtons } from "./../Buttons/ScrollButtons";
@@ -7,12 +7,24 @@ import { ItemBlock } from "./ItemBlock";
 import { useScroll } from "../hooks/useScroll.js";
 import { useEscapeKey } from "./../hooks/useEscapeKey";
 
-export const WeatherContent = ({ multiWeatherData }) => {
+export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory }) => {
   const [showAddingBlock, setShowAddingBlock] = useState(true);
   const { handleScrollLeft, handleScrollRight, wrapperRef } = useScroll();
+  const [cityHistory, setCityHistory] = useState(() => {
+    const saved = localStorage.getItem("cityHistory");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const handleAddClick = () => {
     setShowAddingBlock(false);
+  };
+
+  const handleCityAdded = () => {
+    const updated = localStorage.getItem("cityHistory");
+    if (updated) {
+      setCityHistory(JSON.parse(updated));
+    }
+    setShowAddingBlock(true);
   };
 
   const pageTransition = {
@@ -37,9 +49,9 @@ export const WeatherContent = ({ multiWeatherData }) => {
         {multiWeatherData.length > 2 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
 
         <div className={style.weather__info}>
-          {/* Blocks */}
+          {/*------Our Blocks -------*/}
           {multiWeatherData.map((item, index) => {
-            return <ItemBlock key={index} item={item} index={index} />;
+            return <ItemBlock key={index} item={item} index={index} onCityDelete={deleteCityFromHistory} />;
           })}
 
           {/* Adding Block */}
@@ -59,7 +71,7 @@ export const WeatherContent = ({ multiWeatherData }) => {
                 <p>Add new location</p>
               </motion.div>
             ) : (
-              <AddCitySearchBlock setShowAddingBlock={setShowAddingBlock} />
+              <AddCitySearchBlock setShowAddingBlock={setShowAddingBlock} onCityAdded={handleCityAdded} addCityToHistory={addCityToHistory} />
             )}
           </AnimatePresence>
         </div>

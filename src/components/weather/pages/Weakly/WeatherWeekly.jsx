@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "./WeatherWeekly.module.css";
 import { motion } from "framer-motion";
 import WeeklyContent from "./WeeklyContent";
-import { weatherBackgroundGiphs, weatherIcons } from "./../../utils/weatherUtils";
+import { weatherBackgroundGiphs, weatherIcons } from "./../../utils/weatherFilterData.js";
 import { useParams } from "react-router-dom";
 
 export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {

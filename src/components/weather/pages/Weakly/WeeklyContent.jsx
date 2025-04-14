@@ -1,4 +1,4 @@
-import { weatherDescriptions, weatherIcons } from "../../utils/weatherUtils.js";
+import { weatherDescriptions, weatherIcons } from "../../utils/weatherFilterData.js";
 import style from "./WeatherWeekly.module.css";
 import { getWeekdayNameUS } from "./../../utils/dateHelper";
 
