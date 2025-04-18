@@ -25,7 +25,10 @@ export default function WeatherRoutes({ loading, weatherData, multiWeatherData, 
               <WeatherContent multiWeatherData={multiWeatherData} addCityToHistory={addCityToHistory} deleteCityFromHistory={deleteCityFromHistory} />
             }
           />
-          <Route path="/weather/weekly/:cityName" element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} />} />
+          <Route
+            path="/weather/weekly/:cityName"
+            element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} loading={loading} />}
+          />
 
           {/* <Route path="/weather/map-city" element={<MapWithGeocoding weatherData={weatherData} getWeatherData={getWeatherData} />} /> */}
 

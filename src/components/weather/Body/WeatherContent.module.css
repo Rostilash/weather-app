@@ -106,8 +106,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
   z-index: 13;
+  font-size: 18px;
 }
 .today_weather_town img {
   display: block;
@@ -198,8 +199,9 @@
   cursor: pointer;
 }
 .plus__sign {
-  font-size: 90px;
+  font-size: 60px;
   font-weight: normal;
+  transform: rotate(45deg);
 }
 .wind_direction span {
   font-size: 18px;

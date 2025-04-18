@@ -1,50 +1,71 @@
 .adding__location {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
-  padding: 40px 20px;
   height: 530px;
-  min-width: 300px;
+  min-width: 360px;
   background-color: rgba(0, 0, 0, 0.36);
   border-radius: 45px;
   flex-direction: column;
   flex-shrink: 0;
-  z-index: 100;
   position: relative;
 }
-h1 {
-  margin-bottom: 20px;
+.adding__location h1 {
+  font-weight: 200;
   text-align: center;
+  padding: 40px;
 }
 .input_style {
-  font-size: 20px;
-  width: 200px;
+  font-size: 24px;
+  width: 100%;
   border: none;
   padding: 8px;
-  text-align: center;
+  text-align: left;
   padding: 10px;
   border-radius: 8px;
+  position: relative;
+  background-color: #ffffff41;
+  letter-spacing: 1.5px;
+}
+.input_style::placeholder {
+  color: #dadada;
+  opacity: 1;
+}
+
+.input_icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 1rem;
+  color: #cecece;
+}
+
+.input_icon i {
+  height: 24px;
+  width: 24px;
+  color: white;
+  align-items: center;
+  justify-content: center;
 }
 
 .close_button {
   position: absolute;
   right: 20px;
-  top: 10px;
-  font-size: 30px;
+  top: 0;
+  font-size: 45px;
   cursor: pointer;
+  transform: rotate(45deg);
 }
 
 .autocomplete_list {
   position: absolute;
-  width: 200px;
-  /* background-color: white; */
+  width: 100%;
   border: 1px solid #ddd;
   border-radius: 8px;
-  /* margin-top: 4px; */
   list-style: none;
   padding: 0;
   z-index: 10;
-  /* max-height: 150px; */
   overflow-y: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -61,8 +82,11 @@ h1 {
   background-color: #f1f1f1;
 }
 
-.error_massage {
+.error {
   color: #f98080;
+}
+.success {
+  color: rgb(120, 233, 139);
 }
 .autocomplete_item {
   padding: 8px;

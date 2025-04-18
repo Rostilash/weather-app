@@ -3,16 +3,15 @@ import { motion } from "framer-motion";
 import { handleSearchTheCity, fetchCityDate } from "../../../../services/weatherServices.js";
 import { handleSetCoordinates } from "../../utils/storage";
 import style from "./AddingCity.module.css";
+import { PreLoading } from "./../PreLoading";
+import { loadingInfoGif } from "./../../utils/loadingInfoGif";
 
-export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToHistory }) => {
+export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToHistory, loading }) => {
   const [inputSearchValue, setInputSearchValue] = useState("");
   const [errorMassage, setErrorMassage] = useState("");
+  const [messageType, setMessageType] = useState("");
   const [allCities, setAllCities] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const filtered = allCities.filter((c) => inputSearchValue.length > 0 && c.toLowerCase().startsWith(inputSearchValue.toLowerCase()));
-  const exactMatch = allCities.some((c) => c.toLowerCase() === inputSearchValue.toLowerCase());
-
-  const listRef = useRef(null);
 
   useEffect(() => {
     const loadCities = async () => {
@@ -22,6 +21,11 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
     };
     loadCities();
   }, []);
+
+  const filtered = allCities.filter((c) => inputSearchValue.length > 0 && c.toLowerCase().startsWith(inputSearchValue.toLowerCase()));
+  const exactMatch = allCities.some((c) => c.toLowerCase() === inputSearchValue.toLowerCase());
+
+  const listRef = useRef(null);
 
   const searchCity = async () => {
     const position = await handleSearchTheCity(inputSearchValue);
@@ -45,8 +49,12 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
 
     if (exists) {
       setErrorMassage("City already exists in history.");
+      setMessageType("error");
       return;
     }
+
+    setErrorMassage("City Added");
+    setMessageType("success");
 
     setErrorMassage("City Added");
     const newCity = { inputName: inputSearchValue, lat, lon, address };
@@ -58,25 +66,29 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
   };
 
   const handleKeyDown = (e) => {
-    if (filtered.length === 0 || exactMatch) return;
-
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev + 1) % filtered.length);
+      if (filtered.length > 0) {
+        setActiveIndex((prev) => (prev + 1) % filtered.length);
+      }
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
+      if (filtered.length > 0) {
+        setActiveIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
+      }
     } else if (e.key === "Enter") {
-      if (activeIndex >= 0) {
-        // Якщо вибрано елемент, встановлюємо його значення в input
+      if (activeIndex >= 0 && filtered.length > 0) {
         setInputSearchValue(filtered[activeIndex]);
         setActiveIndex(-1);
       } else {
-        // Якщо елемент не вибраний, викликаємо searchCity
-        searchCity();
+        searchCity(); // Always call search on Enter, regardless of exactMatch
       }
     }
   };
+
+  if (loading) {
+    return loadingInfoGif();
+  }
 
   return (
     <motion.div
@@ -88,21 +100,29 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
       className={style.adding__location}
     >
       <h1>Find City</h1>
-      <p className={style.error_massage}>{errorMassage}</p>
 
-      <div style={{ position: "relative", width: "100%" }}>
-        <input
-          type="text"
-          placeholder="🔍Enter city name"
-          value={inputSearchValue}
-          onChange={(e) => {
-            setInputSearchValue(e.target.value);
-            setActiveIndex(-1);
-          }}
-          onKeyDown={handleKeyDown}
-          className={style.input_style}
-        />
+      <div style={{ position: "relative", width: "90%" }}>
+        {loading && loadingInfoGif()}
+        {!loading && (
+          <>
+            <input
+              type="text"
+              placeholder="Enter city name"
+              value={inputSearchValue}
+              onChange={(e) => {
+                setInputSearchValue(e.target.value);
+                setActiveIndex(-1);
+              }}
+              onKeyDown={handleKeyDown}
+              className={style.input_style}
+              style={{ paddingLeft: "4rem", color: "white" }}
+            />
 
+            <span className={style.input_icon}>
+              <i className="fa-solid fa-magnifying-glass fa-bounce fa-2x" style={{ color: "#dadada" }}></i>
+            </span>
+          </>
+        )}
         {filtered.length > 0 && !exactMatch && (
           <motion.ul className={style.autocomplete_list} ref={listRef}>
             {filtered.slice(0, 7).map((cityName, idx) => (
@@ -119,14 +139,17 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
             ))}
           </motion.ul>
         )}
-
+        {/* 
         <button onClick={searchCity} className="your-button-style">
           Search
-        </button>
+        </button> */}
       </div>
 
+      <p className={`${style.error_massage} ${messageType === "error" ? style.error : messageType === "success" ? style.success : ""}`}>
+        {errorMassage}
+      </p>
       <span className={style.close_button} onClick={() => setShowAddingBlock(true)}>
-        X
+        +
       </span>
     </motion.div>
   );

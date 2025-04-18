@@ -7,9 +7,10 @@ import { ItemBlock } from "./ItemBlock";
 import { useScroll } from "../hooks/useScroll.js";
 import { useEscapeKey } from "./../hooks/useEscapeKey";
 
-export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory }) => {
+export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory, loading }) => {
   const [showAddingBlock, setShowAddingBlock] = useState(true);
   const { handleScrollLeft, handleScrollRight, wrapperRef } = useScroll();
+
   const [cityHistory, setCityHistory] = useState(() => {
     const saved = localStorage.getItem("cityHistory");
     return saved ? JSON.parse(saved) : [];
@@ -34,7 +35,6 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
   };
 
   useEscapeKey(() => setShowAddingBlock(true));
-
   return (
     <>
       <motion.div
@@ -66,12 +66,19 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
                 className={style.adding__location}
               >
                 <div className={style.add_button} onClick={handleAddClick}>
-                  <span className={style.plus__sign}>+</span>
+                  <span className={style.plus__sign}>
+                    <i className="fa-solid fa-xmark fa-beat"></i>
+                  </span>
                 </div>
-                <p>Add new location</p>
+                <p style={{ color: "color:rgb(187, 187, 187)" }}>Add your city...</p>
               </motion.div>
             ) : (
-              <AddCitySearchBlock setShowAddingBlock={setShowAddingBlock} onCityAdded={handleCityAdded} addCityToHistory={addCityToHistory} />
+              <AddCitySearchBlock
+                setShowAddingBlock={setShowAddingBlock}
+                onCityAdded={handleCityAdded}
+                addCityToHistory={addCityToHistory}
+                loading={loading}
+              />
             )}
           </AnimatePresence>
         </div>

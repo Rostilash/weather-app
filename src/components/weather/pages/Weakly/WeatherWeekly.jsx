@@ -9,11 +9,10 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const { cityName } = useParams();
   const ourCity = multiWeatherData.find((object) => object.address.city.toLowerCase() === cityName?.toLowerCase());
 
-  // Перевіряємо, чи є дані
+  // Checking if there is data
   const dailyWeather = ourCity?.data?.daily;
-
   if (!dailyWeather) {
-    console.log("Дані про погоду не знайдені для цього міста");
+    console.log("Weather data not found for this city");
   } else {
     console.log(dailyWeather);
   }
@@ -24,21 +23,12 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const now = new Date();
   const [selectedDate, setSelectedDate] = useState(now.toISOString().split("T")[0]);
 
+  // Looking city in our fetch
   useEffect(() => {
     if (!multiWeatherData || multiWeatherData.length === 0) return;
-
-    // console.log("🔁 Checking for city:", cityName);
-
-    // Перекладаємо ім'я міста з URL, якщо є в мапі, або використовуємо як є
     const translatedName = cityName[cityName.toLowerCase()] || cityName.toLowerCase();
-
-    // console.log("📌 Comparing:", translatedName);
-
-    // Перебираємо масив multiWeatherData і шукаємо місто
+    // We iterate over the multiWeatherData array and search for the city
     const cityFromUrl = multiWeatherData.find((cityObj) => cityObj.address.city.toLowerCase().trim() === translatedName);
-
-    // console.log("📍 Found cityFromUrl:", cityFromUrl);
-
     if (cityFromUrl && cityFromUrl.data) {
       setCityInfo(cityFromUrl);
       setDailyData(cityFromUrl.data.daily);
@@ -72,15 +62,15 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       .filter(Boolean);
   };
 
-  // Отримуємо прогноз для вибраного дня
+  // Get the forecast for the selected day
   const forecastForSelectedDay = getForecastForDate();
   const weatherCodeHourly = forecastForSelectedDay[0].weatherCode;
   const weatherGif = weatherBackgroundGiphs[weatherCodeHourly];
 
-  // Форматування дати для заголовка
+  // Formatting a date for a title
   const formatDate = (date) => new Date(date).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
-  // Maping Dayly array
+  // Maping Daily array
   const weekForecast = dailyData.time.map((date, index) => ({
     date,
     maxTemp: dailyData.temperature_2m_max[index],
@@ -130,7 +120,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
         </div>
       </div>
 
-      {/* Поточний день */}
+      {/* Current Day */}
       <div className={style.second_body_block}>
         <div className={style.backgroundGif}>
           <img src={`${weatherGif}`} />
