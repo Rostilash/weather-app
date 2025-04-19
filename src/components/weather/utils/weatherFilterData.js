@@ -22,12 +22,15 @@ export function filterWindDirection(windDirection) {
 
 export function filterIsDay(day) {
   if (day === 1) {
-    return "https://media.giphy.com/media/a7Cge6vvMaPzJnPSiF/giphy.gif?cid=ecf05e477ww9r4u51n2ssmlaxlwt2i4ds2kis2ch17vwdsfn&ep=v1_stickers_search&rid=giphy.gif&ct=s";
+    return "public/weather-icons/sun.png";
   }
   if (day === 0) {
-    return "https://media.giphy.com/media/P9bgDevMjIoRzmvJlJ/giphy.gif?cid=ecf05e47ikdn8mntkf6e7poho32or9mj51xmi7q44vf4m1wi&ep=v1_stickers_search&rid=giphy.gif&ct=s";
+    return "public/weather-icons/moon.png";
   }
 }
+
+// sun giph "https://media.giphy.com/media/a7Cge6vvMaPzJnPSiF/giphy.gif?cid=ecf05e477ww9r4u51n2ssmlaxlwt2i4ds2kis2ch17vwdsfn&ep=v1_stickers_search&rid=giphy.gif&ct=s";
+// moon giph "https://media.giphy.com/media/P9bgDevMjIoRzmvJlJ/giphy.gif?cid=ecf05e47ikdn8mntkf6e7poho32or9mj51xmi7q44vf4m1wi&ep=v1_stickers_search&rid=giphy.gif&ct=s";
 
 export const weatherDescriptions = {
   0: "Clear sky",
@@ -92,10 +95,10 @@ export const weatherIcons = {
 };
 
 export const weatherBackgroundGiphs = {
-  0: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm92dmc2anR5cWo3dDJhZnVwcm1yaDR2aG91anJ5YWVrdGhrYzNreSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3og0ICH4dOeWmrQMqA/giphy.gif",
-  1: "🌤",
+  0: "https://media.tenor.com/c1rMm90V8CMAAAAM/sunset-nature.gif",
+  1: "https://media3.giphy.com/media/1uLQUtPLbJMQ0/giphy.webp?cid=ecf05e47xjbsaed57pkvv8lunku3t5j6xmy54z6wmujev8hp&ep=v1_gifs_search&rid=giphy.webp&ct=g",
   2: "https://media.giphy.com/media/0Styincf6K2tvfjb5Q/giphy.gif?cid=ecf05e47n6yawu0gqlqg2g9ofzqnoc7fozme4r2abtcapare&ep=v1_gifs_search&rid=giphy.gif&ct=g",
-  3: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzAzc2MwdTBueWJqMjFxeGM4ZjZtMmZlOTZkb29vZGVoNGFxZzY3biZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/7kkfv74y9Uvp7EpiV1/giphy.gif",
+  3: "https://media1.tenor.com/m/maZmZ1eta9kAAAAd/tik-tok-philandmore.gif",
   45: "🌫",
   48: "🌫❄",
   51: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWptaXQzYmtsaTU1Z2pqaGg5YTRyejE2M3RvNzB5dm5pN3RmNWg3aCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/fBP4DVvMfkt7jFDeKU/giphy.gif",
