@@ -22,10 +22,10 @@ export function filterWindDirection(windDirection) {
 
 export function filterIsDay(day) {
   if (day === 1) {
-    return "public/weather-icons/sun.png";
+    return "weather-icons/sun.png";
   }
   if (day === 0) {
-    return "public/weather-icons/moon.png";
+    return "weather-icons/moon.png";
   }
 }
 

@@ -10,15 +10,15 @@ export const WeatherHeader = () => {
 
   return (
     <div className={style.header}>
-      <div className={style.head__logo} onClick={() => handleClick("/weather")}>
-        <img src="../../../public/weather-icons/sunny.png" />
+      <div className={style.head__logo} onClick={() => handleClick("/weather-app/")}>
+        <img src="weather-icons/sunny.png" alt="sunny" />
         <p>
           Weather by Ros<b>Dev</b>
         </p>
       </div>
       <div className={style.head__nav}>
         <a href="https://github.com/Rostilash/weather-app">GitHub</a>
-        <a onClick={() => handleClick("/about")}>About</a>
+        <a onClick={() => handleClick("/weather-app/about")}>About</a>
       </div>
     </div>
   );

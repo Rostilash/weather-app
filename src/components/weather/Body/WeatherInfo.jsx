@@ -8,7 +8,7 @@ export const WeatherInfo = ({ data }) => {
       <div className={style.today_weather_visibility}>
         {/* First block */}
         <div className={style.visibility_context}>
-          <img src={`../../../public/weather-icons/${data.img1}`} alt={data.name1} />
+          <img src={`weather-icons/${data.img1}`} alt={data.name1} />
           <div className={style.visibility_context_text}>
             <span>{data.name1}</span>
             <span>
@@ -22,7 +22,7 @@ export const WeatherInfo = ({ data }) => {
 
         {/* Second block */}
         <div className={style.visibility_context}>
-          <img src={`../../../public/weather-icons/${data.img2}`} alt={data.name2} style={{ height: "20px,", width: "20px" }} />
+          <img src={`weather-icons/${data.img2}`} alt={data.name2} style={{ height: "20px,", width: "20px" }} />
           <div className={style.visibility_context_text}>
             <span style={{ marginLeft: "-5px" }}>{data.name2}</span>
             <span>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import "./MapGeocoding.css";
 
 export function MapWithGeocoding({ getWeatherData }) {
@@ -6,6 +7,33 @@ export function MapWithGeocoding({ getWeatherData }) {
   const rainDropSpacing = 20;
   const dropCount = Math.floor(screenWidth / rainDropSpacing);
 
+  const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Перевірка, чи підтримує браузер Geolocation API
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+        },
+        (err) => {
+          setError(err.message);
+        }
+      );
+    } else {
+      setError("Geolocation не підтримується вашим браузером.");
+    }
+  }, []);
+
+  if (error) {
+    return <div>Помилка: {error}</div>;
+  }
+
+  if (!location) {
+    return <div>Завантаження місцезнаходження...</div>;
+  }
   return (
     <>
       {/* <svg className="pl" viewBox="0 0 200 200">
@@ -33,7 +61,7 @@ export function MapWithGeocoding({ getWeatherData }) {
         <div className="cloud small-2"></div>
       </div>
 
-      <div className="weather-container">
+      {/* <div className="weather-container">
         {Array.from({ length: dropCount }).map((_, index) => {
           const delay = Math.random().toFixed(2); // випадкова затримка 0–1 сек
           return (
@@ -47,6 +75,11 @@ export function MapWithGeocoding({ getWeatherData }) {
             ></div>
           );
         })}
+      </div> */}
+      <div>
+        <h2>Ваше місцезнаходження:</h2>
+        <p>Широта: {location.latitude}</p>
+        <p>Довгота: {location.longitude}</p>
       </div>
     </>
   );

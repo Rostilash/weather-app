@@ -43,7 +43,7 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
   // Navigate
   const navigate = useNavigate();
   const handleNavigationClick = (direction, cityName) => {
-    navigate(`/weather/${direction}/${cityName}`);
+    navigate(`/weather-app/${direction}/${cityName}`);
   };
 
   return (

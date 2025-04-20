@@ -18,22 +18,22 @@ export default function WeatherRoutes({ loading, weatherData, multiWeatherData, 
     <div className={style.weather__body}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route path="/about" element={<About />} />
+          <Route path="/weather-app/about" element={<About />} />
           <Route
-            path="/weather"
+            path="/weather-app/"
             element={
               <WeatherContent multiWeatherData={multiWeatherData} addCityToHistory={addCityToHistory} deleteCityFromHistory={deleteCityFromHistory} />
             }
           />
           <Route
-            path="/weather/weekly/:cityName"
+            path="/weather-app/weekly/:cityName"
             element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} loading={loading} />}
           />
 
-          <Route path="/weather/map-city" element={<MapWithGeocoding />} />
+          <Route path="/weather-app/ip-search" element={<MapWithGeocoding />} />
 
-          <Route path="/" element={<Navigate to="/weather" />} />
-          <Route path="*" element={<Navigate to="/weather" />} />
+          <Route path="/" element={<Navigate to="/weather-app/" />} />
+          <Route path="*" element={<Navigate to="/weather-app/" />} />
         </Routes>
       </AnimatePresence>
     </div>
