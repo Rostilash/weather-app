@@ -31,7 +31,7 @@ export const About = () => {
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className={style.body}
     >
-      <div class="about-section">
+      <div className="about-section">
         <h2>About Us</h2>
         <p>
           This website provides up-to-date weather forecasts for regions around the world. I use advanced meteorological data and algorithms to ensure

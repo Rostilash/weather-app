@@ -6,6 +6,7 @@ import { AddCitySearchBlock } from "../pages/AddingNewCity/AddingCity";
 import { ItemBlock } from "./ItemBlock";
 import { useScroll } from "../hooks/useScroll.js";
 import { useEscapeKey } from "./../hooks/useEscapeKey";
+import { Clouds } from "./../Clouds/Clouds";
 
 export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory, loading }) => {
   const [showAddingBlock, setShowAddingBlock] = useState(true);
@@ -45,23 +46,8 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
         className={`${style.wrapper} ${multiWeatherData.length > 2 ? style.wrapper_start : style.wrapper_center}`}
         ref={wrapperRef}
       >
-        <div className="sun"></div>
-        <div className="clouds cloud-1">
-          <div className="cloud big"></div>
-          <div className="cloud big-2"></div>
-          <div className="cloud small-1"></div>
-          <div className="cloud small-2"></div>
-        </div>
-        <div className="clouds cloud-2">
-          <div className="cloud big"></div>
-          <div className="cloud small-1"></div>
-          <div className="cloud small-2"></div>
-        </div>
-        <div className="clouds cloud-3">
-          <div className="cloud big"></div>
-          <div className="cloud small-1"></div>
-          <div className="cloud small-2"></div>
-        </div>
+        <div className={style.sun}></div>
+        <Clouds />
 
         {multiWeatherData.length > 2 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
 

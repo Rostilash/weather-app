@@ -1,0 +1,89 @@
+:root {
+  --hue: 200;
+}
+
+.pl,
+.pl__worm {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.pl {
+  animation-name: bump;
+  animation-timing-function: linear;
+  width: 1rem;
+  height: 1rem;
+}
+
+.pl__ring {
+  stroke: hsla(var(--hue), 20%, 10%, 0.1);
+  stroke-width: 10;
+  transition: stroke 0.7s;
+}
+
+.pl__worm {
+  stroke: rgba(162, 207, 0, 1);
+  stroke-width: 20;
+  stroke-dasharray: 0 565; /* Початковий розмір черв’яка */
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: worm 2s cubic-bezier(0.42, 0.57, 0.75, 0.83) infinite, fade 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(162, 207, 0, 0.6));
+}
+
+@keyframes worm {
+  0% {
+    stroke-dasharray: 0 565; /* Невидимий черв’як */
+    stroke-dashoffset: 0;
+  }
+
+  10% {
+    stroke-dasharray: 60 565; /* Початок повзання */
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 120 565; /* Черв’як повзає по колу */
+    stroke-dashoffset: -150;
+  }
+
+  70% {
+    stroke-dasharray: 120 565; /* Черв’як знову на початку */
+    stroke-dashoffset: -350;
+  }
+
+  100% {
+    stroke-dasharray: 0 565; /* Черв’як повертається до початку */
+    stroke-dashoffset: -565;
+  }
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade {
+  0% {
+    stroke-opacity: 0;
+  }
+  20% {
+    stroke-opacity: 1; /* Черв’як з’являється */
+  }
+  60% {
+    stroke-opacity: 1; /* Черв’як на максимумі */
+  }
+  80% {
+    stroke-opacity: 0.5; /* Зникання */
+  }
+  100% {
+    stroke-opacity: 0; /* Повне зникнення */
+  }
+}

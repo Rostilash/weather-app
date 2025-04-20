@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { handleSearchTheCity, fetchCityDate } from "../../../../services/weatherServices.js";
 import { handleSetCoordinates } from "../../utils/storage";
 import style from "./AddingCity.module.css";
-import { PreLoading } from "./../PreLoading";
 import { loadingInfoGif } from "./../../utils/loadingInfoGif";
+import { Loading } from "../../../Loading/Loading.jsx";
 
 export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToHistory, loading }) => {
   const [inputSearchValue, setInputSearchValue] = useState("");
@@ -12,6 +12,7 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
   const [messageType, setMessageType] = useState("");
   const [allCities, setAllCities] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     const loadCities = async () => {
@@ -28,13 +29,31 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
   const listRef = useRef(null);
 
   const searchCity = async () => {
-    const position = await handleSearchTheCity(inputSearchValue);
-    if (position && position.lat && position.lon) {
-      const { lat, lon, address } = position;
-      handleSetCoordinates(lat, lon);
-      await saveCityToHistory(inputSearchValue, lat, lon, address);
-    } else {
-      console.error("Error: Coordinates not found.");
+    if (!inputSearchValue.trim()) {
+      setErrorMassage("Please enter a city name.");
+      setMessageType("error");
+      return;
+    }
+
+    setIsSearching(true);
+    setErrorMassage("");
+
+    try {
+      const position = await handleSearchTheCity(inputSearchValue);
+      if (position && position.lat && position.lon) {
+        const { lat, lon, address } = position;
+        handleSetCoordinates(lat, lon);
+        await saveCityToHistory(inputSearchValue, lat, lon, address);
+      } else {
+        setErrorMassage("City not found.");
+        setMessageType("error");
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+      setErrorMassage("Something went wrong.");
+      setMessageType("error");
+    } finally {
+      setIsSearching(false);
     }
   };
 
@@ -123,6 +142,11 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
             </span>
           </>
         )}
+        {isSearching && (
+          <div className={style.loader_container}>
+            <Loading />
+          </div>
+        )}
         {filtered.length > 0 && !exactMatch && (
           <motion.ul className={style.autocomplete_list} ref={listRef}>
             {filtered.slice(0, 7).map((cityName, idx) => (
@@ -139,11 +163,10 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
             ))}
           </motion.ul>
         )}
-        {/* 
-        <button onClick={searchCity} className="your-button-style">
-          Search
-        </button> */}
       </div>
+      {/* <button onClick={searchCity} className="your-button-style">
+        Search
+      </button> */}
 
       <p className={`${style.error_massage} ${messageType === "error" ? style.error : messageType === "success" ? style.success : ""}`}>
         {errorMassage}

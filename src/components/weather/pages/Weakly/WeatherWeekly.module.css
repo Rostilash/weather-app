@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
   max-height: 80vh;
   overflow-y: auto;
   scrollbar-width: none;
@@ -164,30 +163,60 @@ select option {
 }
 
 @media (max-width: 500px) {
-  .body_weekly {
-  }
   .return_button {
     top: 60px;
     left: 0px;
-    font-size: 15px;
-    height: 30px;
+    font-size: 13px;
+    height: 27px;
+    border: none;
   }
   .daily_header {
     display: none;
   }
   .weekly_block h3 {
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: normal;
+    margin-bottom: 0px;
   }
   .description {
     display: none;
   }
   .icons {
-    display: none;
+    font-size: 15px;
+    /* display: none; */
   }
   .list_items {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   .list_items p {
     font-size: 14px;
+  }
+  .forecast {
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+  }
+  .hour_card {
+    font-size: 10px;
+  }
+  .hour_card span {
+    font-size: 15px;
+  }
+  .graphic {
+    border-radius: 5px;
+  }
+  .weekly_info {
+    flex-direction: column;
+    border-radius: 5px;
+  }
+  .weekly_block {
+    width: 100%;
+    border-radius: 5px;
+  }
+  .map {
+    border-radius: 5px;
+    height: 300px;
+    width: 100%;
+  }
+  .forecast {
+    border-radius: 5px;
   }
 }

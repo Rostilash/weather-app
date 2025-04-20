@@ -1,6 +1,6 @@
-:root {
+/* :root {
   --hue: 200;
-}
+} */
 
 .pl,
 .pl__worm {
@@ -11,8 +11,8 @@
 .pl {
   animation-name: bump;
   animation-timing-function: linear;
-  width: 5rem;
-  height: 5rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .pl__ring {
@@ -105,7 +105,7 @@
   left: 0%;
   width: 30%; /* ширина повзука */
   height: 50px;
-  background-color: rgba(162, 207, 0, 1); /* колір повзука */
+  background-color: rgb(170 139 111); /* колір повзука */
   border-radius: 5px;
   animation: slide 4s linear infinite, shake 4s ease-in-out infinite;
   border-radius: 25px;
@@ -192,24 +192,24 @@
   top: 10px;
 }
 .cloud.big-2 {
-  width: 80px;
+  width: 70px;
   height: 40px;
-  left: 75px;
-  top: 0px;
+  left: 70px;
+  top: 5px;
 }
 
 .cloud.small-1 {
-  width: 60px;
+  width: 80px;
   height: 40px;
   left: 0;
-  top: 20px;
+  top: 30px;
 }
 
 .cloud.small-2 {
-  width: 60px;
+  width: 80px;
   height: 40px;
   right: 20px;
-  top: 20px;
+  top: 30px;
 }
 
 .clouds.cloud-1 {

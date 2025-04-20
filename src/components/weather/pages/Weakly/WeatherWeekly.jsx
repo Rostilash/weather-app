@@ -23,9 +23,9 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
     navigate(`/weather`);
   };
   const { cityName } = useParams();
-  console.log(cityName);
+  // console.log(cityName);
 
-  console.log(multiWeatherData[2]?.address.city.toLowerCase());
+  // console.log(multiWeatherData[2]?.address.city.toLowerCase());
   const ourCity = multiWeatherData.find((object) => object?.address.city.toLowerCase() === cityName?.toLowerCase());
 
   // get city cords
@@ -90,12 +90,13 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       className={style.body_weekly}
     >
       <div className={style.daily_info}>
-        {/* Current Day */}
+        {/* Current Day */}{" "}
+        <span className={style.return_button} onClick={() => handleNavigationClick()}>
+          &larr; BACK
+        </span>
         <div className={style.daily_header}>
           <div className={style.backgroundGif}>{/* <img src={`${weatherGif}`} /> */}</div>
-          <span className={style.return_button} onClick={() => handleNavigationClick()}>
-            &larr; BACK
-          </span>
+
           <h2>
             {city} / {getFormattedDate(selectedDate)}
           </h2>
@@ -136,7 +137,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       <div className={style.weekly_info}>
         {/* Weakly weather block */}
         <div className={style.weekly_block}>
-          <h3 style={{ marginBottom: "20px" }}>WEEKLY WEATHER</h3>
+          <h3>WEEKLY WEATHER</h3>
           <div className={style.weather_list}>
             {dailyForecast.map((day, i) => (
               <WeeklyContent key={i} day={day} setSelectedDate={setSelectedDate} />
