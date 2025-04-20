@@ -3,7 +3,7 @@ import "./Clouds.css";
 
 export const Clouds = () => {
   return (
-    <>
+    <div className="clouds_main">
       <div className="clouds cloud-1">
         <div className="cloud big"></div>
         <div className="cloud big-2"></div>
@@ -28,6 +28,6 @@ export const Clouds = () => {
         <div className="cloud small-1"></div>
         <div className="cloud small-2"></div>
       </div>
-    </>
+    </div>
   );
 };

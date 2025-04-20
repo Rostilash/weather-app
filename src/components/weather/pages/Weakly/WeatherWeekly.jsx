@@ -18,14 +18,12 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const [hourlyData, setHourlyData] = useState(weatherData.hourly); // fallback
   const now = new Date();
   const [selectedDate, setSelectedDate] = useState(now.toISOString().split("T")[0]);
+
   const navigate = useNavigate();
   const handleNavigationClick = () => {
-    navigate(`/weather`);
+    navigate(`/weather-app/`);
   };
   const { cityName } = useParams();
-  // console.log(cityName);
-
-  // console.log(multiWeatherData[2]?.address.city.toLowerCase());
   const ourCity = multiWeatherData.find((object) => object?.address.city.toLowerCase() === cityName?.toLowerCase());
 
   // get city cords
@@ -90,9 +88,9 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       className={style.body_weekly}
     >
       <div className={style.daily_info}>
-        {/* Current Day */}{" "}
+        {/* Current Day */}
         <span className={style.return_button} onClick={() => handleNavigationClick()}>
-          &larr; BACK
+          &larr;
         </span>
         <div className={style.daily_header}>
           <div className={style.backgroundGif}>{/* <img src={`${weatherGif}`} /> */}</div>

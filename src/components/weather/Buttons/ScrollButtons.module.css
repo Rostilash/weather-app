@@ -41,15 +41,20 @@
 
 @media (max-width: 500px) {
   .scroll_buttons_container {
-    top: 320px;
-    padding: 10px;
+    top: 370px;
+    padding: 0 35px;
     z-index: 1000;
   }
   .button_left,
   .button_right {
     width: 0px;
-    height: 70px;
+    height: 100px;
     font-size: 20px;
     border-radius: 10px;
+  }
+  .button_left:hover,
+  .button_right:hover {
+    background-color: #ffffff26;
+    width: 50px;
   }
 }

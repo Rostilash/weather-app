@@ -80,6 +80,7 @@
   height: 55px;
   width: 50px;
   z-index: 100;
+  display: none;
 }
 .dropdown {
   position: absolute;
@@ -216,10 +217,23 @@
   font-size: 18px;
   margin-right: 10px;
 }
+.deleting_city {
+  font-size: 30px;
+  font-weight: 500;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+}
+
 @media (max-width: 500px) {
   .wrapper {
     padding: 0px;
     overflow-x: auto;
+    padding-top: 80px;
   }
   .wrapper_center {
     justify-content: start;

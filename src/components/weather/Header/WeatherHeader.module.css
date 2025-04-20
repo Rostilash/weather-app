@@ -51,6 +51,7 @@ a {
   }
   .head__logo {
     padding: 5px;
+    align-items: center;
   }
   .head__logo p {
     font-size: 15px;

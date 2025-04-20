@@ -1,11 +1,13 @@
 .clouds {
-  position: absolute;
+  position: fixed;
   width: 200px;
   height: 80px;
   opacity: 0.3;
   z-index: 0;
 }
-
+.clouds_main {
+  overflow-x: hidden;
+}
 .cloud {
   position: absolute;
   background: #ccc;

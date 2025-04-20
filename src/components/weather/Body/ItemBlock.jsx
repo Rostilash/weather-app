@@ -72,6 +72,17 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
           </ul>
         </div>
       )}
+      {/* delete city  */}
+      <span
+        className={style.deleting_city}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClickDelete(city);
+        }}
+      >
+        х
+      </span>
+
       <div className={style.today_weather_town}>
         <img src={`${isDay}`} alt="Weather" />
         <div>

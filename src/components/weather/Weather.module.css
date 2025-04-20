@@ -12,8 +12,7 @@
 /* Body Styles */
 .weather__body {
   width: 100%;
-  /* height: 70vh; */
-  min-height: 750px;
+  min-height: 75vh;
   padding: 0 94px;
   color: white;
 }
@@ -46,8 +45,10 @@
 
 @media (max-width: 500px) {
   .weather__body {
-    min-height: 600px;
-    padding: 10px;
+    min-height: 75vh;
+    padding: 35px;
+    position: relative;
+    overflow-x: hidden;
   }
   .weather__main {
     border-radius: 0;
