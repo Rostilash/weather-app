@@ -10,7 +10,6 @@ import { useEscapeKey } from "./../hooks/useEscapeKey";
 export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory, loading }) => {
   const [showAddingBlock, setShowAddingBlock] = useState(true);
   const { handleScrollLeft, handleScrollRight, wrapperRef } = useScroll();
-
   const [cityHistory, setCityHistory] = useState(() => {
     const saved = localStorage.getItem("cityHistory");
     return saved ? JSON.parse(saved) : [];
@@ -46,6 +45,24 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
         className={`${style.wrapper} ${multiWeatherData.length > 2 ? style.wrapper_start : style.wrapper_center}`}
         ref={wrapperRef}
       >
+        <div className="sun"></div>
+        <div className="clouds cloud-1">
+          <div className="cloud big"></div>
+          <div className="cloud big-2"></div>
+          <div className="cloud small-1"></div>
+          <div className="cloud small-2"></div>
+        </div>
+        <div className="clouds cloud-2">
+          <div className="cloud big"></div>
+          <div className="cloud small-1"></div>
+          <div className="cloud small-2"></div>
+        </div>
+        <div className="clouds cloud-3">
+          <div className="cloud big"></div>
+          <div className="cloud small-1"></div>
+          <div className="cloud small-2"></div>
+        </div>
+
         {multiWeatherData.length > 2 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
 
         <div className={style.weather__info}>

@@ -1,12 +1,11 @@
 .wrapper {
-  width: 100%;
   scroll-behavior: smooth;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   overflow-x: hidden;
   overflow-y: hidden;
-  padding: 15px 0;
+  padding: 15px 20px;
 }
 .wrapper_start {
   justify-content: flex-start;
@@ -206,4 +205,13 @@
 .wind_direction span {
   font-size: 18px;
   margin-right: 10px;
+}
+@media (max-width: 500px) {
+  .wrapper {
+    padding: 30px;
+    overflow-x: auto;
+  }
+  .wrapper_center {
+    justify-content: start;
+  }
 }

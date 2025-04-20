@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export const useScroll = (scrollAmount = 760) => {
+export const useScroll = (scrollAmount = 360) => {
   const wrapperRef = useRef(null);
 
   const handleScrollLeft = () => {

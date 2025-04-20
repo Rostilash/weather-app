@@ -12,7 +12,7 @@ export default function WeeklyContent({ day, setSelectedDate }) {
       <p>{weekDayShort}</p>
 
       <span className={style.icons}>{icon}</span>
-      <p>{description}</p>
+      <p className={style.description}>{description}</p>
 
       <p>
         {Math.round(day.maxTemp)}°C / {Math.round(day.minTemp)}°C

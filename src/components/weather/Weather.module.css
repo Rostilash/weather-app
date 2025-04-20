@@ -43,3 +43,10 @@
 .loading img {
   display: block;
 }
+
+@media (max-width: 500px) {
+  .weather__body {
+    min-height: 750px;
+    padding: 10px;
+  }
+}

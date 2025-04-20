@@ -30,7 +30,7 @@ export default function WeatherRoutes({ loading, weatherData, multiWeatherData, 
             element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} loading={loading} />}
           />
 
-          {/* <Route path="/weather/map-city" element={<MapWithGeocoding weatherData={weatherData} getWeatherData={getWeatherData} />} /> */}
+          <Route path="/weather/map-city" element={<MapWithGeocoding />} />
 
           <Route path="/" element={<Navigate to="/weather" />} />
           <Route path="*" element={<Navigate to="/weather" />} />

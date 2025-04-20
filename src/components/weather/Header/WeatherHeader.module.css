@@ -7,6 +7,7 @@
   background: #ffffff30;
   font-size: 24px;
   margin-bottom: 8rem;
+  z-index: 1;
 }
 .head__logo {
   display: flex;
@@ -21,7 +22,7 @@
 }
 .head__logo p {
   line-height: 100%;
-  letter-spacing: 0%;
+  letter-spacing: 1px;
   padding-left: 10px;
 }
 .head__nav {
@@ -40,4 +41,19 @@ a {
 }
 .head__nav a:hover {
   color: #321d6473;
+}
+
+@media (max-width: 500px) {
+  .header {
+    flex-direction: row;
+    font-size: 15px;
+    margin-bottom: 1rem;
+  }
+  .head__logo {
+    padding: 5px;
+  }
+  .head__logo p {
+    font-size: 15px;
+    color: white;
+  }
 }

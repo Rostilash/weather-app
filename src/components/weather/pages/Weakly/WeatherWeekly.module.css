@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  min-width: 500px;
+
   max-height: 80vh;
   overflow-y: auto;
   scrollbar-width: none;
@@ -161,4 +161,33 @@ select option {
   border-radius: 25px;
   overflow: hidden;
   padding: 20px;
+}
+
+@media (max-width: 500px) {
+  .body_weekly {
+  }
+  .return_button {
+    top: 60px;
+    left: 0px;
+    font-size: 15px;
+    height: 30px;
+  }
+  .daily_header {
+    display: none;
+  }
+  .weekly_block h3 {
+    font-size: 14px;
+  }
+  .description {
+    display: none;
+  }
+  .icons {
+    display: none;
+  }
+  .list_items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .list_items p {
+    font-size: 14px;
+  }
 }

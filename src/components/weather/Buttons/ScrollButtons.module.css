@@ -1,17 +1,18 @@
-.scroll_buttons_containerЇ {
+.scroll_buttons_container {
   position: fixed;
   left: 0;
   top: 300px;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding: 0 10px;
 }
 
 .button_left,
 .button_right {
   width: 50px;
   height: 350px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.36);
   color: white;
   font-size: 24px;
   border: none;
@@ -36,4 +37,19 @@
 .button_right {
   border-radius: 0px 40px 40px 0;
   right: 0;
+}
+
+@media (max-width: 500px) {
+  .scroll_buttons_container {
+    top: 320px;
+    padding: 10px;
+    z-index: 1000;
+  }
+  .button_left,
+  .button_right {
+    width: 0px;
+    height: 70px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
 }
