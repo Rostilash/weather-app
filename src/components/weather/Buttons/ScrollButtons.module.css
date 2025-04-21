@@ -1,7 +1,8 @@
 .scroll_buttons_container {
-  position: fixed;
+  position: absolute;
   left: 0;
-  top: 300px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -11,7 +12,7 @@
 .button_left,
 .button_right {
   width: 50px;
-  height: 350px;
+  height: 200px;
   background-color: rgba(0, 0, 0, 0.36);
   color: white;
   font-size: 24px;
@@ -41,8 +42,7 @@
 
 @media (max-width: 500px) {
   .scroll_buttons_container {
-    top: 370px;
-    padding: 0 35px;
+    padding: 0px;
     z-index: 1000;
   }
   .button_left,

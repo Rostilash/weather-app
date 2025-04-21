@@ -1,3 +1,5 @@
+import "../../../../public/weather-icons/sun.png";
+
 export function filterWindDirection(windDirection) {
   if ((windDirection >= 0 && windDirection < 22.5) || (windDirection >= 337.5 && windDirection <= 360)) {
     return { direction: "North wind", arrow: "↑" };

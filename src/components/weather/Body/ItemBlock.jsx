@@ -19,12 +19,12 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
 
   // function that deleting the city
   const handleClickDelete = async (city) => {
-    const cityFromLocal = JSON.parse(localStorage.getItem("cityHistory")) || [];
-    const updatedCity = cityFromLocal.filter((localStorageCity) => {
-      const storageCity = localStorageCity.address.city;
-      return city !== storageCity;
-    });
-    localStorage.setItem("cityHistory", JSON.stringify(updatedCity));
+    // const cityFromLocal = JSON.parse(localStorage.getItem("cityHistory")) || [];
+    // const updatedCity = cityFromLocal.filter((localStorageCity) => {
+    //   const storageCity = localStorageCity.address.city;
+    //   return city !== storageCity;
+    // });
+    // localStorage.setItem("cityHistory", JSON.stringify(updatedCity));
 
     //return dropdown to null
     closeDropdown();
@@ -55,7 +55,7 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
         ...
       </span>
 
-      {/* //dots option */}
+      {/* dots option */}
       {activeDropdownIndex === index && (
         <div className={style.dropdown} ref={dropdownRef}>
           <ul>

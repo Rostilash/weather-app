@@ -106,3 +106,10 @@
 .loading {
   height: 200px;
 }
+
+@media (max-width: 500px) {
+  .adding__location {
+    min-width: 100vw;
+    height: 100vh;
+  }
+}

@@ -10,6 +10,7 @@ import { Clouds } from "./../Clouds/Clouds";
 
 export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory, loading }) => {
   const [showAddingBlock, setShowAddingBlock] = useState(true);
+  // buttons scroll info
   const { handleScrollLeft, handleScrollRight, wrapperRef } = useScroll();
   const [cityHistory, setCityHistory] = useState(() => {
     const saved = localStorage.getItem("cityHistory");
@@ -35,6 +36,7 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
   };
 
   useEscapeKey(() => setShowAddingBlock(true));
+
   return (
     <>
       <motion.div
@@ -46,6 +48,7 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
         className={`${style.wrapper} ${multiWeatherData.length > 2 ? style.wrapper_start : style.wrapper_center}`}
         ref={wrapperRef}
       >
+        {/* ccs decoration */}
         <div className={style.sun}></div>
         <Clouds />
 

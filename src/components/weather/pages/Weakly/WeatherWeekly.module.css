@@ -1,11 +1,17 @@
 .body_weekly {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  max-height: 80vh;
+  justify-content: space-between;
+  gap: 16px;
+  max-height: 60vh;
+  width: 95vw;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.body_weekly::-webkit-scrollbar {
+  display: none;
 }
 .return_button {
   font-size: 18px;
@@ -32,20 +38,15 @@
   color: #fafafa;
 }
 .daily_header {
-  position: fixed;
-  top: 3vw;
-  left: 40vw;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 20px;
-  /* background-color: rgba(0, 0, 0, 0.16); */
-  /* border-radius: 20px 20px 0 0; */
-  /* overflow: hidden; */
-  /* position: relative; */
+  min-height: 50px;
+  position: relative;
 }
+.daily_header select {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .daily_header h1,
 .daily_header h2 {
   font-size: 22px;
@@ -165,8 +166,8 @@ select option {
 
 @media (max-width: 500px) {
   .return_button {
-    top: 62px;
-    left: 28px;
+    top: 10%;
+    left: 8%;
     font-size: 35px;
     height: 50px;
     width: 50px;
@@ -174,6 +175,12 @@ select option {
     font-weight: 300;
   }
   .daily_header {
+    min-height: 30px;
+  }
+  .daily_header h2 {
+    font-size: 16px;
+  }
+  .daily_header select {
     display: none;
   }
   .weekly_block h3 {
@@ -186,7 +193,6 @@ select option {
   }
   .icons {
     font-size: 15px;
-    /* display: none; */
   }
   .list_items {
     grid-template-columns: repeat(3, 1fr);

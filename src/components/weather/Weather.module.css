@@ -11,12 +11,14 @@
 }
 /* Body Styles */
 .weather__body {
-  width: 100%;
-  min-height: 75vh;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0 94px;
   color: white;
+  position: relative;
 }
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -46,7 +48,7 @@
 @media (max-width: 500px) {
   .weather__body {
     min-height: 75vh;
-    padding: 35px;
+    padding: 0;
     position: relative;
     overflow-x: hidden;
   }
