@@ -31,8 +31,8 @@ export const About = () => {
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className={style.body}
     >
-      <div className="about-section">
-        <h2>About Us</h2>
+      <div className={style.about_section}>
+        <h2>About this page</h2>
         <p>
           This website provides up-to-date weather forecasts for regions around the world. I use advanced meteorological data and algorithms to ensure
           the accuracy of our forecasts for the next few days. Whether you're planning a trip or wondering if you should take an umbrella, we provide

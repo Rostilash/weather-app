@@ -1,12 +1,12 @@
 /* Footer Styles */
 .weather__footer {
-  padding: 20px 0;
+  padding: 20px;
   text-align: center;
   height: 50px;
   width: 100%;
 }
 .footer__content {
-  padding: 0 20px;
+  /* padding: 0 20px; */
 }
 .weather__footer img {
   width: 15px;

@@ -1,12 +1,19 @@
-# React + Vite
+🌦 Weather App
+This is a weather application built with React that allows users to search for a city, view current weather conditions, and see historical temperature charts. The app is interactive, features smooth animations, a map for location selection, and multiple pages.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 Live demo: https://rostilash.github.io/weather-app/
 
-Currently, two official plugins are available:
+🔧 Technologies used:
+📆 date-fns – for formatting dates
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🌤 api.open-meteo.com – main source for weather data
 
-## Expanding the ESLint configuration
+🗺 nominatim.openstreetmap.org – used for geocoding city names to coordinates
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🌍 Leaflet v1.9.4 – interactive map for selecting locations
+
+📊 chart.js – for displaying temperature history charts
+
+🔀 react-router-dom – for handling routing between pages
+
+✨ framer-motion – for animated page transitions

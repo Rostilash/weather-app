@@ -110,6 +110,7 @@
 @media (max-width: 500px) {
   .adding__location {
     min-width: 100vw;
-    height: 100vh;
+    height: 80vh;
+    border-radius: 0px;
   }
 }
