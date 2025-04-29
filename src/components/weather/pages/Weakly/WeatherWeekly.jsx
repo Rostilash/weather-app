@@ -89,12 +89,12 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
     >
       <div className={style.daily_info}>
         {/* Current Day */}
-        <span className={style.return_button} onClick={() => handleNavigationClick()}>
-          &larr;
-        </span>
-        <div className={style.daily_header}>
-          <div className={style.backgroundGif}>{/* <img src={`${weatherGif}`} /> */}</div>
 
+        <div className={style.daily_header}>
+          {/* <div className={style.backgroundGif}> <img src={`${weatherGif}`} /> </div> */}
+          <span className={style.return_button} onClick={() => handleNavigationClick()}>
+            &larr;
+          </span>
           <h2>
             {city} / {getFormattedDate(selectedDate)}
           </h2>
@@ -122,11 +122,11 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
             })
             .map((forecast, index) => (
               <div key={forecast.time} className={style.hour_card}>
-                <div>
+                <div style={{ color: "#c5c5c5" }}>
                   {index === 0 ? "Now" : `${new Date(forecast.time).getHours() % 12 || 12}${new Date(forecast.time).getHours() < 12 ? "AM" : "PM"}`}
                 </div>
                 <span>{forecast.icon}</span>
-                <div>{Math.round(forecast.temperature)}°C</div>
+                <div style={{ color: "#ced129" }}>{Math.round(forecast.temperature)}°C</div>
               </div>
             ))}
         </div>

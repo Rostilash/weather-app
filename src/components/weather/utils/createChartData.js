@@ -39,9 +39,11 @@ export const createChartData = (forecastData = []) => {
           segment: {
             borderColor: (ctx) => {
               const temp = ctx.p0.parsed.y;
-              if (temp > 35) return "red";
-              if (temp > 18) return "orange";
-              if (temp < 10) return "lightskyblue";
+              if (temp > 34) return "red";
+              if (temp > 24) return "orange";
+              if (temp > 14) return "yellow";
+              if (temp <= 14) return "lightskyblue";
+              if (temp < 0) return "blue";
               return "white";
             },
           },

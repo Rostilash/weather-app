@@ -15,7 +15,7 @@ export default function WeeklyContent({ day, setSelectedDate }) {
       <p className={style.description}>{description}</p>
 
       <p>
-        {Math.round(day.maxTemp)}°C / {Math.round(day.minTemp)}°C
+        <span style={{ color: "#abab00" }}>{Math.round(day.maxTemp)}°C</span> /<span style={{ color: "#9393f5" }}> {Math.round(day.minTemp)}°C</span>
       </p>
 
       {/* <p>💧 {day.precipitation} mm</p> */}

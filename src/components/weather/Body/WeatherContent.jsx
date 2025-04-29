@@ -49,8 +49,9 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
         ref={wrapperRef}
       >
         {/* ccs decoration */}
-        <div className={style.sun}></div>
-        <Clouds />
+        {/* <div className={style.sun}></div> */}
+        {/* <Clouds /> */}
+        {/* end decoration */}
 
         {multiWeatherData.length > 2 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
 

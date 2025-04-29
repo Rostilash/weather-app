@@ -48,19 +48,19 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
 
   return (
     <div className={style.today__weather} onClick={() => handleNavigationClick("weekly", item.address.city.toLowerCase())}>
-      <div className={style.backgroundGif}>
+      {/* <div className={style.backgroundGif}>
         <img src={`${weahterGifs}`} />
-      </div>
+      </div> */}
       <span className={style.dots} onClick={(e) => handleDotsClick(e, index)}>
         ...
       </span>
 
       {/* dots option */}
+      {/* 
       {activeDropdownIndex === index && (
         <div className={style.dropdown} ref={dropdownRef}>
           <ul>
-            {/* <li>Option 1</li> */}
-            {/* <li onClick={() => useDirectionClick("map-city", "")}>Find Map</li> */}
+             <li>Option 1</li> 
             <li
               onClick={(e) => {
                 e.stopPropagation(); // Stopping the action with loading parent function navigation.
@@ -71,7 +71,8 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
             </li>
           </ul>
         </div>
-      )}
+      )} */}
+
       {/* delete city  */}
       <span
         className={style.deleting_city}

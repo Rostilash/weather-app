@@ -6,18 +6,21 @@
     linear-gradient(135deg, #512da8, #2196f3);
   display: flex;
   flex-direction: column;
-  border-radius: 25px;
-  height: 100vh;
+  /* border-radius: 25px; */
+  min-height: 100vh;
 }
 /* Body Styles */
 .weather__body {
-  min-height: 80vh;
+  /* flex: 1; */
+  overflow-y: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 94px;
+  padding: 0 5vw;
   color: white;
   position: relative;
+  height: 90vh;
+  overflow: hidden;
 }
 @keyframes spin {
   0% {
@@ -47,10 +50,11 @@
 
 @media (max-width: 500px) {
   .weather__body {
-    min-height: 75vh;
+    flex: 1;
     padding: 0;
     position: relative;
     overflow-x: hidden;
+    align-items: normal;
   }
   .weather__main {
     border-radius: 0;
