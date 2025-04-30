@@ -19,13 +19,6 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
 
   // function that deleting the city
   const handleClickDelete = async (city) => {
-    // const cityFromLocal = JSON.parse(localStorage.getItem("cityHistory")) || [];
-    // const updatedCity = cityFromLocal.filter((localStorageCity) => {
-    //   const storageCity = localStorageCity.address.city;
-    //   return city !== storageCity;
-    // });
-    // localStorage.setItem("cityHistory", JSON.stringify(updatedCity));
-
     //return dropdown to null
     closeDropdown();
 
@@ -81,7 +74,7 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
           handleClickDelete(city);
         }}
       >
-        х
+        <img src="https://cdn-icons-png.flaticon.com/128/8695/8695043.png" alt="icon" />
       </span>
 
       <div className={style.today_weather_town}>
@@ -98,8 +91,7 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
         <span className={style.temperature}>{Math.round(temperature)}</span>
         <span className={style.celsius}>°C</span>
         <span className={style.cloudy}>
-          {weatherCodeIcon}
-          {weatherDescription}
+          <img src={weatherCodeIcon} alt="icon" /> {weatherDescription}
         </span>
       </div>
 

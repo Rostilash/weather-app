@@ -172,7 +172,7 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
         {errorMassage}
       </p>
       <span className={style.close_button} onClick={() => setShowAddingBlock(true)}>
-        +
+        <img src="https://cdn-icons-png.flaticon.com/128/8695/8695043.png" alt="icon" />
       </span>
     </motion.div>
   );

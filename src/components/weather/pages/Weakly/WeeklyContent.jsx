@@ -11,14 +11,16 @@ export default function WeeklyContent({ day, setSelectedDate }) {
     <div className={style.list_items} onClick={() => setSelectedDate(day.date)}>
       <p>{weekDayShort}</p>
 
-      <span className={style.icons}>{icon}</span>
+      <span className={style.icons}>
+        <img src={icon} alt="icon" />
+      </span>
       <p className={style.description}>{description}</p>
 
       <p>
         <span style={{ color: "#abab00" }}>{Math.round(day.maxTemp)}°C</span> /<span style={{ color: "#9393f5" }}> {Math.round(day.minTemp)}°C</span>
       </p>
 
-      {/* <p>💧 {day.precipitation} mm</p> */}
+      {/* <p>💧 {day .precipitation} mm</p> */}
       {/* <p>💨 {day.windspeed} km/h</p> */}
     </div>
   );

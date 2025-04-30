@@ -18,8 +18,8 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const [hourlyData, setHourlyData] = useState(weatherData.hourly); // fallback
   const now = new Date();
   const [selectedDate, setSelectedDate] = useState(now.toISOString().split("T")[0]);
-
   const navigate = useNavigate();
+
   const handleNavigationClick = () => {
     navigate(`/weather-app/`);
   };
@@ -70,12 +70,12 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
     exit: { x: "-100vw", opacity: 0 },
   };
 
-  // chartData options
-  const { chartData, options } = createChartData(forecastForSelectedDay);
+  // ChartData options Graphic functions
+  const { chartData, options, customPlugins } = createChartData(forecastForSelectedDay);
 
+  //  Icon and Temperature for MAP
   const weatherIcon = forecastForSelectedDay[0]?.icon;
   const temperature = Math.round(forecastForSelectedDay[0]?.temperature);
-  // adding info on map
   const customIcon = createWeatherMapIcon(weatherIcon, temperature);
 
   return (
@@ -93,7 +93,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
         <div className={style.daily_header}>
           {/* <div className={style.backgroundGif}> <img src={`${weatherGif}`} /> </div> */}
           <span className={style.return_button} onClick={() => handleNavigationClick()}>
-            &larr;
+            <img src="https://cdn-icons-png.flaticon.com/128/1634/1634157.png" alt="icon" />
           </span>
           <h2>
             {city} / {getFormattedDate(selectedDate)}
@@ -108,7 +108,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
           </select>
         </div>
         <div className={style.graphic}>
-          <Line data={chartData} options={options} />
+          <Line key={selectedDate} data={chartData} options={options} plugins={customPlugins} />
         </div>
         {/* Displaying the forecast for the selected day */}
         <div className={style.forecast}>
@@ -125,7 +125,9 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
                 <div style={{ color: "#c5c5c5" }}>
                   {index === 0 ? "Now" : `${new Date(forecast.time).getHours() % 12 || 12}${new Date(forecast.time).getHours() < 12 ? "AM" : "PM"}`}
                 </div>
-                <span>{forecast.icon}</span>
+                <span className={style.icon}>
+                  <img src={forecast.icon} alt="icon" />
+                </span>
                 <div style={{ color: "#ced129" }}>{Math.round(forecast.temperature)}°C</div>
               </div>
             ))}

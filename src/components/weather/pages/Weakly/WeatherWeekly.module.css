@@ -18,22 +18,20 @@
   display: none;
 }
 
-.return_button {
-  height: 45px;
-  width: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.192);
+.return_button img {
+  height: 40px;
+  width: 40px;
   position: absolute;
   left: 0;
   top: 0;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+  opacity: 0.7;
 }
-.return_button:hover {
-  background-color: #0056b3;
+.return_button img:hover {
+  height: 40px;
+  width: 50px;
+  opacity: 1;
 }
 
 /* first_body_block css block */
@@ -95,6 +93,10 @@ select option {
   padding: 5px;
   border: 1px solid rgba(165, 165, 165, 0.137);
 }
+.hour_card span img {
+  height: 50px;
+  width: 50px;
+}
 .hour_card:hover {
   background-color: rgba(243, 243, 243, 0.158);
 }
@@ -111,17 +113,18 @@ select option {
 .weekly_info {
   display: flex;
   flex-direction: row;
+  gap: 50px;
 }
 .map {
   width: 49vw;
-  border-radius: 0 20px 20px 0;
+  border-radius: 20px;
 }
 .weekly_block {
-  width: 80vw;
+  /* width: 80vw; */
   display: flex;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.36);
-  border-radius: 20px 0 0 20px;
+  border-radius: 20px;
   overflow: hidden;
 }
 .weekly_block h3 {
@@ -132,6 +135,7 @@ select option {
 .list_items {
   padding: 10px;
   display: grid;
+  min-height: 85px;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
   align-items: center;
@@ -160,8 +164,9 @@ select option {
   gap: 5px;
 } */
 
-.icons {
-  font-size: 2rem;
+.icons img {
+  height: 40px;
+  width: 40px;
 }
 
 .daily_block {
@@ -177,11 +182,12 @@ select option {
 }
 
 @media (max-width: 800px) {
+  .return_button img {
+    left: 20px;
+  }
   .return_button {
-    width: 50px;
-    height: 40px;
-    border-radius: 0;
-    border: none;
+    width: 25px;
+    height: 25px;
   }
   .daily_header {
     min-height: 30px;
@@ -198,10 +204,12 @@ select option {
   .description {
     display: none;
   }
-  .icons {
-    font-size: 15px;
+  .icons img {
+    height: 30px;
+    width: 30px;
   }
   .list_items {
+    min-height: 40px;
     grid-template-columns: repeat(3, 1fr);
   }
   .list_items p {
@@ -234,10 +242,11 @@ select option {
   }
   .hour_card {
     font-size: 10px;
-    border: 1px solid #949494;
+    /* border: 1px solid #949494; */
   }
-  .hour_card span {
-    font-size: 15px;
+  .hour_card span img {
+    height: 20px;
+    width: 20px;
   }
   .graphic {
     border-radius: 5px;
