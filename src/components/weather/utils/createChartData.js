@@ -72,14 +72,15 @@ export const createChartData = (forecastData = []) => {
   ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend, Filler);
   const isSmallScreen = window.innerWidth < 800;
   const pointRadius = isSmallScreen ? 3 : 6;
+
   return {
     chartData: {
       labels,
       datasets: [
         {
-          label: "Temperature (°C)",
+          label: "Temperature °C",
           data: temps,
-          backgroundColor: "rgba(99, 58, 214, 0.2)",
+          // backgroundColor: "rgba(99, 58, 214, 0.2)",
           tension: 0.4,
           fill: true,
           pointRadius: pointRadius,
@@ -99,13 +100,33 @@ export const createChartData = (forecastData = []) => {
           },
         },
         {
-          label: "Feels like (°C)",
+          label: "Feels like °C",
           data: apparent,
-          borderColor: "rgba(255, 0, 0, 0.5)",
+          borderColor: "rgba(253, 253, 253, 0.5)",
           borderDash: [5, 5],
           pointRadius: 0,
           fill: false,
         },
+        // {
+        //   label: "Very Cold less then 0°C",
+        //   borderColor: "blue",
+        // },
+        // {
+        //   label: "Cold  +5°C",
+        //   borderColor: "lightskyblue",
+        // },
+        // {
+        //   label: "normal +14°C",
+        //   borderColor: "yellow",
+        // },
+        // {
+        //   label: "hot +24°C",
+        //   borderColor: "orange",
+        // },
+        // {
+        //   label: "very hot +34°C",
+        //   borderColor: "red",
+        // },
       ],
     },
     options: {

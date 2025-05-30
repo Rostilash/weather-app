@@ -11,11 +11,14 @@ import { createChartData } from "../../utils/createChartData.js";
 import { getForecastForDate } from "./../../utils/forecastUtils";
 import { createWeatherMapIcon } from "./../../utils/mapUtils";
 import { getFormattedDate } from "../../utils/dateHelper.js";
+import ColorLegendModal from "./ColorLegendModal.jsx";
 
 export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const [cityInfo, setCityInfo] = useState(null);
   const [dailyData, setDailyData] = useState(weatherData.daily); // fallback
   const [hourlyData, setHourlyData] = useState(weatherData.hourly); // fallback
+  const [showLegend, setShowLegend] = useState(false);
+
   const now = new Date();
   const [selectedDate, setSelectedDate] = useState(now.toISOString().split("T")[0]);
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const handleNavigationClick = () => {
     navigate(`/weather-app/`);
   };
+
   const { cityName } = useParams();
   const ourCity = multiWeatherData.find((object) => object?.address.city.toLowerCase() === cityName?.toLowerCase());
 
@@ -78,6 +82,11 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const temperature = Math.round(forecastForSelectedDay[0]?.temperature);
   const customIcon = createWeatherMapIcon(weatherIcon, temperature);
 
+  const [openMap, setOpenMap] = useState(false);
+
+  const handleOpenMap = () => {
+    setOpenMap((prev) => !prev);
+  };
   return (
     <motion.div
       variants={pageVariants}
@@ -90,14 +99,24 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       <div className={style.daily_info}>
         {/* Current Day */}
 
+        {showLegend && <ColorLegendModal onClose={() => setShowLegend(false)} />}
+
         <div className={style.daily_header}>
           {/* <div className={style.backgroundGif}> <img src={`${weatherGif}`} /> </div> */}
           <span className={style.return_button} onClick={() => handleNavigationClick()}>
-            <img src="https://cdn-icons-png.flaticon.com/128/1634/1634157.png" alt="icon" />
+            <img src="https://cdn-icons-png.flaticon.com/128/12071/12071357.png" alt="icon" />
           </span>
           <h2>
             {city} / {getFormattedDate(selectedDate)}
           </h2>
+          <p style={{ fontSize: "14px", marginBottom: "20px" }}>You can see the information you need above the graph.</p>
+          <p
+            className={style.open_map}
+            onClick={() => setShowLegend(true)}
+            style={{ margin: "0 auto", width: "100%", padding: "5px", backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+          >
+            Show Temperature Legend
+          </p>
           {/* selector */}
           <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
             {dailyData.time.map((date) => (
@@ -140,12 +159,15 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
           <h3>WEEKLY WEATHER</h3>
           <div className={style.weather_list}>
             {dailyForecast.map((day, i) => (
-              <WeeklyContent key={i} day={day} setSelectedDate={setSelectedDate} />
+              <WeeklyContent key={i} day={day} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
             ))}
           </div>
+          <span className={style.open_map} onClick={handleOpenMap}>
+            {!openMap ? "Open the map" : "Close the map"}
+          </span>
         </div>
 
-        {markerPosition && (
+        {openMap && markerPosition && (
           <MapContainer center={markerPosition} zoom={9} className={style.map}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Marker position={markerPosition} icon={customIcon} />

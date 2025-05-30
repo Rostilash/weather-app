@@ -11,5 +11,5 @@ export function getWeekdayNameUS(dateString) {
 }
 
 export function getFormattedDate(time) {
-  return format(parseISO(time), "eeee dd/MM/yyyy", { locale: enUS });
+  return format(parseISO(time), "eeee dd.MM.yyyy", { locale: enUS });
 }

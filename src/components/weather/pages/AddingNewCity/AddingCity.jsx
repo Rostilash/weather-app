@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { handleSearchTheCity, fetchCityDate } from "../../../../services/weatherServices.js";
+import { handleSearchTheCity, fetchCityDate, fetchUkrainianCities } from "../../../../services/weatherServices.js";
 import { handleSetCoordinates } from "../../utils/storage";
 import style from "./AddingCity.module.css";
 import { loadingInfoGif } from "./../../utils/loadingInfoGif";
@@ -15,13 +15,36 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    const loadCities = async () => {
-      const citiesData = await fetchCityDate();
-      const cityNames = citiesData.map((city) => (typeof city === "object" && city.name ? city.name : null)).filter(Boolean);
-      setAllCities(cityNames);
+    const fetchCities = async () => {
+      const inputTrimmed = inputSearchValue.trim();
+      if (!inputTrimmed) {
+        setAllCities([]);
+        return;
+      }
+
+      const isUkrainian = /[а-яА-ЯіІїЇєЄґҐ]/.test(inputTrimmed);
+
+      if (isUkrainian) {
+        const cities = await fetchUkrainianCities();
+        const inputLower = inputTrimmed.toLowerCase();
+
+        const cleanCityName = (rawName) => rawName.trim().replace(/^(с\.|м\.|смт\.)\s*/i, "");
+
+        const matching = cities.filter((c) => cleanCityName(c.city).toLowerCase().startsWith(inputLower)).map((c) => cleanCityName(c.city));
+
+        setAllCities(matching);
+      } else {
+        const cities = await fetchCityDate();
+        const inputLower = inputTrimmed.toLowerCase();
+
+        const matching = cities.filter((c) => c.name.toLowerCase().startsWith(inputLower)).map((c) => c.name);
+
+        setAllCities(matching);
+      }
     };
-    loadCities();
-  }, []);
+
+    fetchCities();
+  }, [inputSearchValue]);
 
   const filtered = allCities.filter((c) => inputSearchValue.length > 0 && c.toLowerCase().startsWith(inputSearchValue.toLowerCase()));
   const exactMatch = allCities.some((c) => c.toLowerCase() === inputSearchValue.toLowerCase());
@@ -136,7 +159,9 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
               className={style.input_style}
               style={{ paddingLeft: "4rem", color: "white" }}
             />
-
+            <span onClick={searchCity} className={style.search_button}>
+              Search
+            </span>
             <span className={style.input_icon}>
               <i className="fa-solid fa-magnifying-glass fa-bounce fa-2x" style={{ color: "#dadada" }}></i>
             </span>
@@ -164,15 +189,12 @@ export const AddCitySearchBlock = ({ setShowAddingBlock, onCityAdded, addCityToH
           </motion.ul>
         )}
       </div>
-      {/* <button onClick={searchCity} className="your-button-style">
-        Search
-      </button> */}
 
       <p className={`${style.error_massage} ${messageType === "error" ? style.error : messageType === "success" ? style.success : ""}`}>
         {errorMassage}
       </p>
       <span className={style.close_button} onClick={() => setShowAddingBlock(true)}>
-        <img src="https://cdn-icons-png.flaticon.com/128/8695/8695043.png" alt="icon" />
+        <img src="https://cdn-icons-png.flaticon.com/128/7782/7782957.png" alt="icon" />
       </span>
     </motion.div>
   );

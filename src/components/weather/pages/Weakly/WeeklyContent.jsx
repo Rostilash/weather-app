@@ -2,13 +2,18 @@ import { weatherDescriptions, weatherIcons } from "../../utils/weatherFilterData
 import style from "./WeatherWeekly.module.css";
 import { getWeekdayNameUS } from "./../../utils/dateHelper";
 
-export default function WeeklyContent({ day, setSelectedDate }) {
+export default function WeeklyContent({ day, setSelectedDate, selectedDate }) {
   const icon = weatherIcons[day.weatherCode] || "❓";
   const description = weatherDescriptions[day.weatherCode] || "Unknown";
   const weekDayShort = getWeekdayNameUS(day.date);
 
+  const isActive = day.date === selectedDate;
+
   return (
-    <div className={style.list_items} onClick={() => setSelectedDate(day.date)}>
+    <div
+      className={`${style.list_items} ${isActive ? style.active : ""}`} // 🔥 додаємо клас
+      onClick={() => setSelectedDate(day.date)}
+    >
       <p>{weekDayShort}</p>
 
       <span className={style.icons}>

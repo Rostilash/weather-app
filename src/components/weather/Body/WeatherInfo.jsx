@@ -10,7 +10,7 @@ export const WeatherInfo = ({ data }) => {
         <div className={style.visibility_context}>
           <img src={`weather-icons/${data.img1}`} alt={data.name1} />
           <div className={style.visibility_context_text}>
-            <span>{data.name1}</span>
+            <span>{data.name1} </span>
             <span>
               {data.element1.toFixed(1)}
               {data.unit1}

@@ -14,7 +14,7 @@ export const WeatherHeader = () => {
       <div className={style.head__logo} onClick={() => handleClick("/weather-app/")}>
         <img src={`${import.meta.env.BASE_URL}weather-icons/sunny.png`} alt="sunny" />
         <p>
-          Weather by Ros<b>Dev</b>
+          Weather by Ros<b style={{ color: "#72a8f0" }}>Dev</b>
         </p>
       </div>
       <div className={style.head__nav}>

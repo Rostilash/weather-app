@@ -49,11 +49,11 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
       </span>
 
       {/* dots option */}
-      {/* 
+
       {activeDropdownIndex === index && (
         <div className={style.dropdown} ref={dropdownRef}>
           <ul>
-             <li>Option 1</li> 
+            <li>Option 1</li>
             <li
               onClick={(e) => {
                 e.stopPropagation(); // Stopping the action with loading parent function navigation.
@@ -64,7 +64,7 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
             </li>
           </ul>
         </div>
-      )} */}
+      )}
 
       {/* delete city  */}
       <span
@@ -74,7 +74,7 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
           handleClickDelete(city);
         }}
       >
-        <img src="https://cdn-icons-png.flaticon.com/128/8695/8695043.png" alt="icon" />
+        <img src="https://cdn-icons-png.flaticon.com/128/7782/7782957.png" alt="icon" />
       </span>
 
       <div className={style.today_weather_town}>
