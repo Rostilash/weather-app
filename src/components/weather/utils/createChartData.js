@@ -1,4 +1,13 @@
-import { LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend, Filler, Chart as ChartJS } from "chart.js";
+import {
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+  Filler,
+  Chart as ChartJS,
+} from "chart.js";
 
 export const customIconsPlugin = (icons = []) => {
   const images = [];
@@ -80,7 +89,7 @@ export const createChartData = (forecastData = []) => {
         {
           label: "Temperature °C",
           data: temps,
-          // backgroundColor: "rgba(99, 58, 214, 0.2)",
+          backgroundColor: "rgba(99, 58, 214, 0.2)",
           tension: 0.4,
           fill: true,
           pointRadius: pointRadius,
@@ -99,14 +108,14 @@ export const createChartData = (forecastData = []) => {
             },
           },
         },
-        {
-          label: "Feels like °C",
-          data: apparent,
-          borderColor: "rgba(253, 253, 253, 0.5)",
-          borderDash: [5, 5],
-          pointRadius: 0,
-          fill: false,
-        },
+        // {
+        //   label: "Feels like °C",
+        //   data: apparent,
+        //   borderColor: "rgba(253, 253, 253, 0.5)",
+        //   borderDash: [5, 5],
+        //   pointRadius: 0,
+        //   fill: false,
+        // },
         // {
         //   label: "Very Cold less then 0°C",
         //   borderColor: "blue",
@@ -144,7 +153,11 @@ export const createChartData = (forecastData = []) => {
               const temp = context.dataset.data[index];
               const humidity = forecastData[index]?.humidity;
               const visibility = forecastData[index]?.visibility;
-              return [`Temperature: ${temp}°C`, `Humidity: ${humidity}%`, `Visibility: ${visibility / 1000} км`];
+              return [
+                `Temperature: ${temp}°C`,
+                `Humidity: ${humidity}%`,
+                `Visibility: ${visibility / 1000} км`,
+              ];
             },
           },
         },

@@ -12,6 +12,7 @@ import { getForecastForDate } from "./../../utils/forecastUtils";
 import { createWeatherMapIcon } from "./../../utils/mapUtils";
 import { getFormattedDate } from "../../utils/dateHelper.js";
 import ColorLegendModal from "./ColorLegendModal.jsx";
+import { weatherDescriptions, weatherIcons } from "../../utils/weatherFilterData.js";
 
 export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const [cityInfo, setCityInfo] = useState(null);
@@ -62,7 +63,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   // get city name
   const city = cityInfo?.address.city;
 
-  // Maping Daily array
+  // Map daily data into a format shared by the overview and weekly forecast.
   const dailyForecast = dailyData.time.map((date, index) => ({
     date,
     maxTemp: dailyData.temperature_2m_max[index],
@@ -71,6 +72,15 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
     windspeed: dailyData.windspeed_10m_max[index],
     weatherCode: dailyData.weathercode[index],
   }));
+  const selectedDay = dailyForecast.find((day) => day.date === selectedDate);
+  const selectedDayDescription =
+    weatherDescriptions[selectedDay?.weatherCode] || "Weather conditions";
+  const selectedDayIcon = weatherIcons[selectedDay?.weatherCode];
+  const isSelectedToday = selectedDate === new Date().toISOString().split("T")[0];
+  const displayedHourlyForecast = forecastForSelectedDay.filter(
+    (forecast) => !isSelectedToday || new Date(forecast.time) >= new Date(),
+  );
+  const selectedHour = displayedHourlyForecast[0] || forecastForSelectedDay[0];
 
   const pageVariants = {
     initial: { x: "100vw", opacity: 0 },
@@ -100,35 +110,23 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className={style.body_weekly}
     >
-      <div className={style.daily_info}>
-        {/* Current Day */}
+      {showLegend && <ColorLegendModal onClose={() => setShowLegend(false)} />}
 
-        {showLegend && <ColorLegendModal onClose={() => setShowLegend(false)} />}
-
-        <div className={style.daily_header}>
-          {/* <div className={style.backgroundGif}> <img src={`${weatherGif}`} /> </div> */}
-          <span className={style.return_button} onClick={() => handleNavigationClick()}>
-            <img src="https://cdn-icons-png.flaticon.com/128/12071/12071357.png" alt="icon" />
-          </span>
-          <h2>
-            {city} / {getFormattedDate(selectedDate)}
-          </h2>
-          <p style={{ fontSize: "14px", marginBottom: "20px" }}>
-            You can see the information you need above the graph.
-          </p>
-          <p
-            className={style.open_map}
-            onClick={() => setShowLegend(true)}
-            style={{
-              margin: "0 auto",
-              width: "100%",
-              padding: "5px",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-            }}
-          >
-            Show Temperature Legend
-          </p>
-          {/* selector */}
+      <header className={style.page_header}>
+        <button
+          type="button"
+          className={style.return_button}
+          onClick={handleNavigationClick}
+          aria-label="Back to weather overview"
+        >
+          <img src="https://cdn-icons-png.flaticon.com/128/12071/12071357.png" alt="" />
+        </button>
+        <div className={style.page_title}>
+          <span>WEATHER OVERVIEW</span>
+          <h1>{city}</h1>
+        </div>
+        <label className={style.date_control}>
+          <span>Forecast date</span>
           <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
             {dailyData.time.map((date) => (
               <option key={date} value={date}>
@@ -136,55 +134,109 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
               </option>
             ))}
           </select>
+        </label>
+      </header>
+
+      <section className={style.daily_info} aria-label="Selected day weather">
+        <div className={style.summary_card}>
+          <div className={style.summary_main}>
+            {selectedDayIcon && (
+              <img className={style.summary_icon} src={selectedDayIcon} alt="" />
+            )}
+            <div>
+              <p className={style.summary_date}>{getFormattedDate(selectedDate)}</p>
+              <h2>{selectedDayDescription}</h2>
+              <p className={style.summary_location}>{city} · Daily forecast</p>
+            </div>
+          </div>
+          <div className={style.summary_temperature}>
+            <span className={style.high_temperature}>{Math.round(selectedDay?.maxTemp)}°</span>
+            <span className={style.temperature_separator}>/</span>
+            <span className={style.low_temperature}>{Math.round(selectedDay?.minTemp)}°</span>
+            <span className={style.temperature_unit}>C</span>
+          </div>
+          <div className={style.weather_stats}>
+            <div className={style.weather_stat}>
+              <span>Feels like</span>
+              <strong>
+                {selectedHour ? `${Math.round(selectedHour.apparent_temperature)}°C` : "—"}
+              </strong>
+            </div>
+            <div className={style.weather_stat}>
+              <span>Humidity</span>
+              <strong>{selectedHour ? `${selectedHour.humidity}%` : "—"}</strong>
+            </div>
+            <div className={style.weather_stat}>
+              <span>Wind</span>
+              <strong>{Math.round(selectedDay?.windspeed)} km/h</strong>
+            </div>
+            <div className={style.weather_stat}>
+              <span>Precipitation</span>
+              <strong>{selectedDay?.precipitation} mm</strong>
+            </div>
+          </div>
         </div>
 
-        <div className={style.graphic}>
-          <Line key={selectedDate} data={chartData} options={options} plugins={customPlugins} />
-        </div>
-
-        {/* Displaying the forecast for the selected day */}
-        <div className={style.forecast}>
-          {forecastForSelectedDay
-            .filter((forecast) => {
-              const now = new Date();
-              const forecastTime = new Date(forecast.time);
-              const diffInMs = forecastTime - now;
-              const diffInHours = diffInMs / (1000 * 60 * 60);
-              return diffInHours >= 0;
-            })
-            .map((forecast, index) => (
-              <div key={forecast.time} className={style.hour_card}>
-                <div style={{ color: "#c5c5c5" }}>
-                  {index === 0
-                    ? "Now"
-                    : `${new Date(forecast.time).getHours() % 12 || 12}${new Date(forecast.time).getHours() < 12 ? "AM" : "PM"}`}
+        <section className={style.chart_panel} aria-label="Hourly temperature chart">
+          <div className={style.section_heading}>
+            <div>
+              <span>HOURLY DETAILS</span>
+              <h2>Temperature throughout the day</h2>
+            </div>
+            <button
+              type="button"
+              className={style.legend_button}
+              onClick={() => setShowLegend(true)}
+            >
+              Temperature legend
+            </button>
+          </div>
+          <div className={style.graphic}>
+            <Line key={selectedDate} data={chartData} options={options} plugins={customPlugins} />
+          </div>
+          <div className={style.forecast_heading}>
+            <h3>Hourly forecast</h3>
+            <span>Scroll to explore</span>
+          </div>
+          <div className={style.forecast}>
+            {displayedHourlyForecast.map((forecast, index) => (
+                <div key={forecast.time} className={style.hour_card}>
+                  <span className={style.hour_time}>
+                    {isSelectedToday && index === 0
+                      ? "Now"
+                      : `${new Date(forecast.time).getHours() % 12 || 12}${new Date(forecast.time).getHours() < 12 ? "AM" : "PM"}`}
+                  </span>
+                  <span className={style.icon}>
+                    <img src={forecast.icon} alt="" />
+                  </span>
+                  <strong>{Math.round(forecast.temperature)}°C</strong>
                 </div>
-                <span className={style.icon}>
-                  <img src={forecast.icon} alt="icon" />
-                </span>
-                <div style={{ color: "#ced129" }}>{Math.round(forecast.temperature)}°C</div>
-              </div>
-            ))}
-        </div>
-      </div>
+              ))}
+          </div>
+        </section>
+      </section>
 
-      <div className={style.weekly_info}>
-        {/* Weakly weather block */}
+      <section className={style.weekly_info} aria-label="Weekly forecast">
         <div className={style.weekly_block}>
-          <h3>WEEKLY WEATHER</h3>
+          <div className={style.weekly_heading}>
+            <div>
+              <span>PLAN AHEAD</span>
+              <h2>Weekly weather</h2>
+            </div>
+            <button type="button" className={style.map_toggle} onClick={handleOpenMap}>
+              {!openMap ? "Open map" : "Close map"}
+            </button>
+          </div>
           <div className={style.weather_list}>
-            {dailyForecast.map((day, i) => (
+            {dailyForecast.map((day) => (
               <WeeklyContent
-                key={i}
+                key={day.date}
                 day={day}
                 setSelectedDate={setSelectedDate}
                 selectedDate={selectedDate}
               />
             ))}
           </div>
-          <span className={style.open_map} onClick={handleOpenMap}>
-            {!openMap ? "Open the map" : "Close the map"}
-          </span>
         </div>
 
         {openMap && markerPosition && (
@@ -193,7 +245,7 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
             <Marker position={markerPosition} icon={customIcon} />
           </MapContainer>
         )}
-      </div>
+      </section>
     </motion.div>
   );
 };
