@@ -1,7 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { WeatherInfo } from "./WeatherInfo";
 import { infoPropsData } from "./infoPropsData";
-import { filterWindDirection, filterIsDay, weatherDescriptions, weatherBackgroundGiphs, weatherIcons } from "../utils/weatherFilterData";
+import {
+  filterWindDirection,
+  filterIsDay,
+  weatherDescriptions,
+  weatherBackgroundGiphs,
+  weatherIcons,
+} from "../utils/weatherFilterData";
 import { getFormattedDate } from "../utils/dateHelper";
 import style from "./WeatherContent.module.css";
 import { useDropdown } from "./../hooks/useDropdown";
@@ -36,14 +42,18 @@ export const ItemBlock = ({ item, index, onCityDelete }) => {
   // Navigate
   const navigate = useNavigate();
   const handleNavigationClick = (direction, cityName) => {
-    navigate(`/weather-app/${direction}/${cityName}`);
+    navigate(`/${direction}/${cityName}`);
   };
 
   return (
-    <div className={style.today__weather} onClick={() => handleNavigationClick("weekly", item.address.city.toLowerCase())}>
+    <div
+      className={style.today__weather}
+      onClick={() => handleNavigationClick("weekly", item.address.city.toLowerCase())}
+    >
       {/* <div className={style.backgroundGif}>
         <img src={`${weahterGifs}`} />
       </div> */}
+
       <span className={style.dots} onClick={(e) => handleDotsClick(e, index)}>
         ...
       </span>

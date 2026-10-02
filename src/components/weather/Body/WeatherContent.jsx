@@ -8,7 +8,12 @@ import { useScroll } from "../hooks/useScroll.js";
 import { useEscapeKey } from "./../hooks/useEscapeKey";
 import { Clouds } from "./../Clouds/Clouds";
 
-export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityFromHistory, loading }) => {
+export const WeatherContent = ({
+  multiWeatherData,
+  addCityToHistory,
+  deleteCityFromHistory,
+  loading,
+}) => {
   const [showAddingBlock, setShowAddingBlock] = useState(true);
   // buttons scroll info
   const { handleScrollLeft, handleScrollRight, wrapperRef } = useScroll();
@@ -53,12 +58,21 @@ export const WeatherContent = ({ multiWeatherData, addCityToHistory, deleteCityF
         {/* <Clouds /> */}
         {/* end decoration */}
 
-        {multiWeatherData.length > 2 && <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />}
+        {multiWeatherData.length > 2 && (
+          <ScrollButtons onScrollLeft={handleScrollLeft} onScrollRight={handleScrollRight} />
+        )}
 
         <div className={style.weather__info}>
           {/*------Our Blocks -------*/}
           {multiWeatherData.map((item, index) => {
-            return <ItemBlock key={index} item={item} index={index} onCityDelete={deleteCityFromHistory} />;
+            return (
+              <ItemBlock
+                key={index}
+                item={item}
+                index={index}
+                onCityDelete={deleteCityFromHistory}
+              />
+            );
           })}
 
           {/* Adding Block */}

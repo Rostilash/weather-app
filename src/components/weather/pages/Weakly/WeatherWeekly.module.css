@@ -80,25 +80,58 @@ select option {
   width: 100%;
 }
 .forecast {
-  display: grid;
-  /* grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); */
-  grid-template-columns: repeat(12, 1fr);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
   background-color: rgba(46, 46, 46, 0.36);
   border-radius: 0 0 20px 20px;
   margin-bottom: 10px;
-  /* padding: 5px 5px; */
+  padding: 12px;
   text-align: center;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(197, 197, 197, 0.45) transparent;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.forecast::-webkit-scrollbar {
+  height: 6px;
+}
+.forecast::-webkit-scrollbar-thumb {
+  background-color: rgba(197, 197, 197, 0.45);
+  border-radius: 999px;
+}
+.forecast::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 .hour_card {
-  padding: 5px;
+  flex: 0 0 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 116px;
+  padding: 12px 8px;
   border: 1px solid rgba(165, 165, 165, 0.137);
+  border-radius: 16px;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 .hour_card span img {
   height: 50px;
   width: 50px;
+  object-fit: contain;
 }
 .hour_card:hover {
   background-color: rgba(243, 243, 243, 0.158);
+  border-color: rgba(197, 197, 197, 0.45);
+  transform: translateY(-2px);
 }
 .hour_card:nth-child(2n) {
   background-color: rgba(180, 180, 180, 0.103);
@@ -251,31 +284,24 @@ select option {
     width: 100%;
   }
   .forecast {
-    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
     border-radius: 5px;
-    padding: 0;
-    margin: 0;
+    padding: 8px;
+    gap: 6px;
   }
   .hour_card {
-    font-size: 10px;
-    /* border: 1px solid #949494; */
+    flex-basis: 68px;
+    min-height: 94px;
+    gap: 5px;
+    padding: 9px 6px;
+    border-radius: 12px;
+    font-size: 12px;
   }
   .hour_card span img {
-    height: 20px;
-    width: 20px;
+    height: 36px;
+    width: 36px;
   }
   .graphic {
     border-radius: 5px;
     min-height: 250px;
-  }
-}
-@media (max-width: 460px) {
-  .forecast {
-    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
-  }
-}
-@media (max-width: 380px) {
-  .forecast {
-    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
   }
 }

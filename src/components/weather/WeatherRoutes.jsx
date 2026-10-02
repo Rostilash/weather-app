@@ -8,7 +8,13 @@ import { PreLoading } from "./pages/PreLoading";
 import { ErrorPage } from "./pages/ErrorPage";
 import style from "./Weather.module.css";
 
-export default function WeatherRoutes({ loading, weatherData, multiWeatherData, addCityToHistory, deleteCityFromHistory }) {
+export default function WeatherRoutes({
+  loading,
+  weatherData,
+  multiWeatherData,
+  addCityToHistory,
+  deleteCityFromHistory,
+}) {
   const location = useLocation();
 
   if (loading) return <PreLoading />;
@@ -18,22 +24,34 @@ export default function WeatherRoutes({ loading, weatherData, multiWeatherData, 
     <div className={style.weather__body}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route path="/weather-app/about" element={<About />} />
+          <Route path="/about" element={<About />} />
+
           <Route
-            path="/weather-app/"
+            path="/"
             element={
-              <WeatherContent multiWeatherData={multiWeatherData} addCityToHistory={addCityToHistory} deleteCityFromHistory={deleteCityFromHistory} />
+              <WeatherContent
+                multiWeatherData={multiWeatherData}
+                addCityToHistory={addCityToHistory}
+                deleteCityFromHistory={deleteCityFromHistory}
+              />
             }
           />
+
           <Route
-            path="/weather-app/weekly/:cityName"
-            element={<WeatherWeekly weatherData={weatherData} multiWeatherData={multiWeatherData} loading={loading} />}
+            path="/weekly/:cityName"
+            element={
+              <WeatherWeekly
+                weatherData={weatherData}
+                multiWeatherData={multiWeatherData}
+                loading={loading}
+              />
+            }
           />
 
-          <Route path="/weather-app/ip-search" element={<MapWithGeocoding />} />
+          <Route path="/ip-search" element={<MapWithGeocoding />} />
 
-          <Route path="/" element={<Navigate to="/weather-app/" />} />
-          <Route path="*" element={<Navigate to="/weather-app/" />} />
+          <Route path="/" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </AnimatePresence>
     </div>

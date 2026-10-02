@@ -24,11 +24,13 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
   const navigate = useNavigate();
 
   const handleNavigationClick = () => {
-    navigate(`/weather-app/`);
+    navigate(`/`);
   };
 
   const { cityName } = useParams();
-  const ourCity = multiWeatherData.find((object) => object?.address.city.toLowerCase() === cityName?.toLowerCase());
+  const ourCity = multiWeatherData.find(
+    (object) => object?.address.city.toLowerCase() === cityName?.toLowerCase(),
+  );
 
   // get city cords
   const lat = ourCity?.data.latitude;
@@ -44,7 +46,9 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
     const translatedName = cityName[cityName.toLowerCase()] || cityName.toLowerCase();
 
     // We iterate over the multiWeatherData array and search for the city
-    const cityFromUrl = multiWeatherData.find((cityObj) => cityObj.address.city.toLowerCase().trim() === translatedName);
+    const cityFromUrl = multiWeatherData.find(
+      (cityObj) => cityObj.address.city.toLowerCase().trim() === translatedName,
+    );
     if (cityFromUrl && cityFromUrl.data) {
       setCityInfo(cityFromUrl);
       setDailyData(cityFromUrl.data.daily);
@@ -109,11 +113,18 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
           <h2>
             {city} / {getFormattedDate(selectedDate)}
           </h2>
-          <p style={{ fontSize: "14px", marginBottom: "20px" }}>You can see the information you need above the graph.</p>
+          <p style={{ fontSize: "14px", marginBottom: "20px" }}>
+            You can see the information you need above the graph.
+          </p>
           <p
             className={style.open_map}
             onClick={() => setShowLegend(true)}
-            style={{ margin: "0 auto", width: "100%", padding: "5px", backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+            style={{
+              margin: "0 auto",
+              width: "100%",
+              padding: "5px",
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+            }}
           >
             Show Temperature Legend
           </p>
@@ -126,9 +137,11 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
             ))}
           </select>
         </div>
+
         <div className={style.graphic}>
           <Line key={selectedDate} data={chartData} options={options} plugins={customPlugins} />
         </div>
+
         {/* Displaying the forecast for the selected day */}
         <div className={style.forecast}>
           {forecastForSelectedDay
@@ -142,7 +155,9 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
             .map((forecast, index) => (
               <div key={forecast.time} className={style.hour_card}>
                 <div style={{ color: "#c5c5c5" }}>
-                  {index === 0 ? "Now" : `${new Date(forecast.time).getHours() % 12 || 12}${new Date(forecast.time).getHours() < 12 ? "AM" : "PM"}`}
+                  {index === 0
+                    ? "Now"
+                    : `${new Date(forecast.time).getHours() % 12 || 12}${new Date(forecast.time).getHours() < 12 ? "AM" : "PM"}`}
                 </div>
                 <span className={style.icon}>
                   <img src={forecast.icon} alt="icon" />
@@ -159,7 +174,12 @@ export const WeatherWeekly = ({ weatherData, multiWeatherData }) => {
           <h3>WEEKLY WEATHER</h3>
           <div className={style.weather_list}>
             {dailyForecast.map((day, i) => (
-              <WeeklyContent key={i} day={day} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
+              <WeeklyContent
+                key={i}
+                day={day}
+                setSelectedDate={setSelectedDate}
+                selectedDate={selectedDate}
+              />
             ))}
           </div>
           <span className={style.open_map} onClick={handleOpenMap}>

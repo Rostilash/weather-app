@@ -9,13 +9,24 @@ import { ErrorPage } from "./pages/ErrorPage";
 import { PreLoading } from "./pages/PreLoading";
 
 export const Weather = () => {
-  const savedCoordinates = JSON.parse(localStorage.getItem("coordinates")) || { lat: 48.6208, lon: 22.2879 };
+  const saved = JSON.parse(localStorage.getItem("coordinates"));
+
+  const savedCoordinates = saved
+    ? {
+        lat: Number(saved.lat),
+        lon: Number(saved.lon ?? saved.lng),
+      }
+    : {
+        lat: 48.6208,
+        lon: 22.2879,
+      };
 
   const [coordinates, setCoordinates] = useState(savedCoordinates);
   const [weatherData, setWeatherData] = useState(null);
   const [multiWeatherData, setMultiWeatherData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [cityHistory, setCityHistory] = useState(() => {
     return JSON.parse(localStorage.getItem("cityHistory")) || [];
   });
@@ -35,19 +46,38 @@ export const Weather = () => {
   // Weather data retrieval function
   useEffect(() => {
     const fetchWeatherData = async () => {
+      if (
+        !coordinates ||
+        !Number.isFinite(Number(coordinates.lat)) ||
+        !Number.isFinite(Number(coordinates.lon))
+      ) {
+        console.error("Invalid coordinates:", coordinates);
+        setError("Invalid coordinates");
+        setLoading(false);
+        return;
+      }
+
       try {
+        setLoading(true);
+        setError(null);
+
         const response = await axios.get("https://api.open-meteo.com/v1/forecast", {
           params: {
-            latitude: coordinates.lat,
-            longitude: coordinates.lon,
+            latitude: Number(coordinates.lat),
+            longitude: Number(coordinates.lon),
+
             current_weather: true,
-            hourly: "temperature_2m,weathercode,relative_humidity_2m,apparent_temperature,visibility,windspeed_10m",
+
+            hourly:
+              "temperature_2m,weathercode,relative_humidity_2m,apparent_temperature,visibility,windspeed_10m",
+
             daily:
               "temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode,precipitation_probability_mean,uv_index_max,sunrise,sunset",
+
             timezone: "auto",
-            language: "en",
           },
         });
+
         const hourly = response.data.hourly;
 
         const fullWeatherData = {
@@ -63,7 +93,10 @@ export const Weather = () => {
         setWeatherData(fullWeatherData);
         setLoading(false);
       } catch (error) {
-        console.error("Error while fetching data:", error);
+        console.error("Weather error:", error.response?.data);
+        console.error("Request params:", error.config?.params);
+
+        setError(error);
         setLoading(false);
       }
     };
@@ -80,7 +113,8 @@ export const Weather = () => {
               latitude: city.lat,
               longitude: city.lon,
               current_weather: true,
-              hourly: "temperature_2m,weathercode,relative_humidity_2m,apparent_temperature,visibility,windspeed_10m",
+              hourly:
+                "temperature_2m,weathercode,relative_humidity_2m,apparent_temperature,visibility,windspeed_10m",
               daily:
                 "temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode,precipitation_probability_mean,uv_index_max,sunrise,sunset",
               timezone: "auto",
@@ -108,15 +142,25 @@ export const Weather = () => {
   }, [cityHistory]);
 
   const updateCoordinates = (newCoords) => {
-    handleSetCoordinates(newCoords.lat, newCoords.lon);
-    setCoordinates(newCoords);
+    const normalizedCoords = {
+      lat: Number(newCoords.lat),
+      lon: Number(newCoords.lon ?? newCoords.lng),
+    };
+
+    console.log("Normalized coordinates:", normalizedCoords);
+
+    handleSetCoordinates(normalizedCoords.lat, normalizedCoords.lon);
+
+    setCoordinates(normalizedCoords);
   };
 
   return (
     <>
       <div className={style.weather__main}>
         <WeatherHeader />
+
         {error && <ErrorPage />}
+
         {!loading && weatherData ? (
           <WeatherRoutes
             loading={loading}
@@ -129,6 +173,7 @@ export const Weather = () => {
         ) : (
           <PreLoading />
         )}
+
         <WeatherFooter />
       </div>
     </>
